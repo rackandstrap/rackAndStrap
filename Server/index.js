@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const port = 3000
 
-app.use('/', (req, res) => {
-    console.log(req.url);
+// Handle all requests
+app.use('*', (req, res) => {
+    console.log(`request received from ip address - ${req.ip}`);
     res.json({response: 'succesful request'});
 });
 
