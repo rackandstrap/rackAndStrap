@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // import dotenv and run the file which will pull all our env variables into process.env
 require('dotenv').config({path: "./src/config/.env"})
 
-// get connection strring from .env file - *change USERNAME and PASSWORD* to your own username and password in dot env file
+// get connection string from .env file - *change USERNAME and PASSWORD* to your own username and password in dot env file
 const connectionString = process.env.CONNECTION_STRING;
 
 // connect to db
