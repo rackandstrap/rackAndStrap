@@ -39,6 +39,12 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+        const userExists = await Users.findOne({username: req.body.username});
+
+        if (userExists) {
+            res.status(400).json({response: "user already exists"})
+        }
+
         const newUser = await Users.create({
             username: req.body.username,
             password: await bcrypt.hash(req.body.password, 10),
@@ -57,6 +63,9 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.put('/', async (req, res) => {
+    // handle put request
+})
 
 router.delete('/', async (req, res) => {
     const {username, password} = req.body;
