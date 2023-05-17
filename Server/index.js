@@ -1,11 +1,22 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = 3000
 
-// Handle all requests
-app.use('*', (req, res) => {
-    console.log(`request received from ip address - ${req.ip}`);
-    res.json({response: 'response'});
-});
+const connectToDB = require('./src/config/db')
+// Connect to the database
+connectToDB()
 
+app.use(express.json())
+app.use(cors());
+
+app.use('/user', require('./src/routes/userRoutes'));
+
+// Handle all requests
+// app.use('*', (req, res) => {
+//     console.log(`request received from ip address - ${req.ip}`);
+//     res.json({response: 'response'});
+// });
+
+// start the server and listen on port 3000
 app.listen(port, () => console.log('listening on port ' + port));
