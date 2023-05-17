@@ -5,4 +5,6 @@ import reducer from './reducer';
 
 const store = createStore(reducer);
 
+//I assume you can add more "reducer" to this store. 
+
 export default store;

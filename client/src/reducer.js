@@ -1,12 +1,11 @@
 const initialState = {
-    id:null,
-    username:'',
-    password:'',
-    firstname:'',
 
-    user: {},
-    jobrequest:[],
-    provideservice:[],
+    userInfo: {'username':'',
+                'name':'',
+                'homebase': '',
+                'job':[],
+                'provide':[],
+            }
 
 
 };
@@ -16,7 +15,7 @@ const reducer = (state = initialState, action) =>{
         case 'AUTH':
             return {
                 ...state,
-                firstname: action.payload,
+                userInfo: action.payload
             };
         default:
             return state;

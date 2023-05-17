@@ -9,7 +9,11 @@ import fbLogo from './logo/f_logo_RGB-Blue_58.png';
 import googleLogo from './logo/Google__G__Logo.svg.png'
 
 
-const Login = (props) =>{
+const Login = ({userInfo, auth}) =>{
+
+    /*
+    We can just use userInfo from our store as we need.
+    */
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
@@ -19,6 +23,7 @@ const Login = (props) =>{
         username: '',
         password: '',
         confirmpassword: '',
+        name:'',
         homebase: '',
     });
     
@@ -32,27 +37,12 @@ const Login = (props) =>{
 
     const attempLogin=(event)=>{
         event.preventDefault();
-        //Add check user list?
         console.log(username, password);
 
         //This is where we set the user?
-
-        for(let i of user){
-            if (i.password === password & i.username === username){
-                console.log("successful login");
-                console.log(i);
-                // setValidUser(i);
-                //update redux object
-                props.auth(i.firstname);
-
-            }
-        }
-
-        if(validuser != undefined){
-            console.log(validuser.name);
-        }else{
-            console.error("Did not find a valid user!");
-        }
+        //Todo: call API to login the user 
+        //Todo: return error message. 
+        
         
     }
 
@@ -68,8 +58,11 @@ const Login = (props) =>{
             }
         }
         //We might want to do some min req for password strength
+        //For example pwd lenght more than 6
         let validPWD = false;
         if(newUser.password === newUser.confirmpassword){
+            console.log(newUser.password)
+            console.log(newUser.confirmpassword)
             validPWD = true;
         }
 
@@ -81,17 +74,23 @@ const Login = (props) =>{
         }
 
         if(!foundDuplicate && validPWD){
-            props.auth(newUser.username);
+
+            auth({'username':newUser.username,
+                    'name': "Placeholder here",
+                    'homebase':'',
+                    'job': [],
+                    'provide': []});
+            
         }
-        
     }
 
     const handleNewUser=(event)=>{
-        event.preventDefault();
-        setNewUser({...newUser,[event.target.name]: event.target.value})
+        // event.preventDefault();
+        console.log(event.target.name, event.target.value);
+        setNewUser({...newUser,[event.target.name]: event.target.value});
     }
 
-    if(!props.firstname){
+    if(!userInfo.username){
         return(
             <div className="Auth-window">
                 
@@ -113,7 +112,7 @@ const Login = (props) =>{
                 <div  className="login-window"> New User? Signup Now! 
                     <form onSubmit={attempSignUp}>
                         <div className="form-group">
-                            <label>Username:</label>
+                            <label htmlFor="username">Username:</label>
                             <input name="username" 
                                     type="text" 
                                     value={newUser.username} 
@@ -121,18 +120,18 @@ const Login = (props) =>{
                                     required/>
                         </div>
                         <div className="form-group">
-                            <label>Password:</label>
-                            <input name="pwd"
+                            <label htmlFor="password">Password:</label>
+                            <input name="password"
                                     type="password" 
-                                    // value={newUser.password} 
+                                    value={newUser.password} 
                                     onChange={handleNewUser}
                                     required/>
                         </div>
                         <div className="form-group">
-                            <label>Confirm PW:</label>
-                            <input name="confirmpwd"
+                            <label htmlFor="confirmpwd">Confirm PW:</label>
+                            <input name="confirmpassword"
                                     type="password" 
-                                    // value={newUser.confirmpassword} 
+                                    value={newUser.confirmpassword} 
                                     onChange={handleNewUser}
                                     required/>
                         </div>
@@ -149,9 +148,9 @@ const Login = (props) =>{
         )
     } else {
         return(
-            <div>You logged in!
-                <User userObj={props.firstname}/>
-            </div>
+            // <div>You logged in!
+                <User/>
+            // </div>
         )
     }
     
@@ -160,7 +159,7 @@ const Login = (props) =>{
 
 const mapStateToProps = (state) =>{
     return{
-        firstname: state.firstname,
+        userInfo: state.userInfo,
     };
 };
 
