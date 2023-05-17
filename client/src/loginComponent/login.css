@@ -1,0 +1,46 @@
+.login-window{
+
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    width: 300px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.signup-window{
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    width: 300px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   
+
+}
+
+input{
+    margin-left: 4px;
+}
+
+.third-party-auth{
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+img {
+
+    width: 40px;
+    padding-left: 18px;
+  }

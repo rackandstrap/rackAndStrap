@@ -4,6 +4,11 @@ const initialState = {
     password:'',
     firstname:'',
 
+    user: {},
+    jobrequest:[],
+    provideservice:[],
+
+
 };
 
 const reducer = (state = initialState, action) =>{
