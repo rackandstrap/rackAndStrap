@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import user from '../userList';
 import User from '../userComponent/UserProfile';
 import { connect } from "react-redux";
@@ -37,7 +37,30 @@ const Login = ({userInfo, auth}) =>{
 
     const attempLogin=(event)=>{
         event.preventDefault();
+        
         console.log(username, password);
+        const loginObject = {'username': username, 'password': password}
+        
+        const fetchData = async()=>{
+            try {
+                const response = await fetch('http://localhost:3000/users', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(loginObject)});
+                
+                if (!response.ok){
+                    throw new Error('Request failed');
+                }
+                const responseData = await response.json();
+                console.log(responseData);
+                setNewUser(responseData);
+                
+            }catch(error){
+                console.log(error);
+            }
+        }
+
+        fetchData()
 
         //This is where we set the user?
         //Todo: call API to login the user 
