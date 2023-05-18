@@ -6,8 +6,9 @@ import { connect } from "react-redux";
 import { auth } from '../action';
 import './login.css';
 import fbLogo from './logo/f_logo_RGB-Blue_58.png';
-import googleLogo from './logo/Google__G__Logo.svg.png'
-
+import googleLogo from './logo/Google__G__Logo.svg.png';
+// import axios from 'axios';
+const axios = require('axios')
 
 const Login = ({userInfo, auth}) =>{
 
@@ -39,34 +40,16 @@ const Login = ({userInfo, auth}) =>{
         event.preventDefault();
         
         console.log(username, password);
-        const loginObject = {'username': username, 'password': password}
+        // const loginObject = {'username': username, 'password': password}
         
-        const fetchData = async()=>{
-            try {
-                const response = await fetch('http://localhost:3000/users', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(loginObject)});
-                
-                if (!response.ok){
-                    throw new Error('Request failed');
-                }
-                const responseData = await response.json();
-                console.log(responseData);
-                setNewUser(responseData);
-                
-            }catch(error){
-                console.log(error);
-            }
-        }
+        axios({
+            method:'get',
+            url: 'http://localhost:3000/user',
+            data: {username: 'user1',   
+                    password: 'password1'}
+        }).then(response => console.log(response.data))
 
-        fetchData()
-
-        //This is where we set the user?
-        //Todo: call API to login the user 
-        //Todo: return error message. 
-        
-        
+            // Handle successful response
     }
 
     const attempSignUp=(event)=>{
