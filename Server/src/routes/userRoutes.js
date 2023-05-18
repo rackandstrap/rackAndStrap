@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../models/userModel')
 const bcrypt = require('bcrypt');
+const authenticateUser = require('../controllers/userController')
 
 router.get('/:all', async (req, res) => {
     if (req.params.all === "all") {
@@ -12,29 +13,12 @@ router.get('/:all', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    try {
-        const {username, password} = req.body;
+router.get('/', authenticateUser , async (req, res) => {
+    const {username} = req.body;
+    const user = await Users.findOne({username});
 
-        const user = await Users.findOne({username});
-
-        if (!user) {
-            res.status(404).json({response: "username does not exist"});
-        } 
-
-        const correctPassword = await bcrypt.compare(password, user.password);
-
-        if (correctPassword) {
-            res.json(user);
-        } else {
-            res.status(400).json({error: "Invalid Password"})
-        }
-    }
-
-    catch (error) {
-        console.error(error)
-        res.status(500).json({error: "Server error"})
-    }
+    console.log(user);
+    res.json(user);
 })
 
 router.post('/', async (req, res) => {
@@ -42,7 +26,7 @@ router.post('/', async (req, res) => {
         const userExists = await Users.findOne({username: req.body.username});
 
         if (userExists) {
-            res.status(400).json({response: "user already exists"})
+            return res.status(400).json({response: "user already exists"})
         }
 
         const newUser = await Users.create({
@@ -54,43 +38,39 @@ router.post('/', async (req, res) => {
             provide: req.body.provide || []
         })
 
-        res.json(newUser)
+        return res.json(newUser)
     }
 
     catch (error) {
-        console.error(`Error during creation: ${error}`)
-        res.status(400).json({error: "Could not create user"})
+        return res.status(400).json({error: "Could not create user"})
     }
 })
 
-router.put('/', async (req, res) => {
-    // handle put request
-})
-
-router.delete('/', async (req, res) => {
-    const {username, password} = req.body;
-
-    const user = await Users.findOne({username});
-
-    if (!user) {
-        res.status(404).json({response: "username does not exist"});
+router.patch('/', authenticateUser, async (req, res) => {
+    
+    try {
+        const updates = req.body.updates;
+        if (updates.password) {
+            updates.password = await bcrypt.hash(updates.password, 10)
+        }
+        const updatedUser = await Users.updateOne({username: req.body.creds.username}, updates)
+        
+        return res.json({response: "user updated"})
     }
-
-    const correctPassword = await bcrypt.compare(password, user.password);
-
-    if (correctPassword) {
-        try {
-            await Users.deleteOne({username});
-            res.json({response: "user deleted succesfully"})
-        }
-        catch (error) {
-            res.status(400).json({error})
-        }
-
-    } else {
-        res.status(400).json({error: "Invalid Password"})
+    catch (error) {
+        console.log(error)
+        res.status(500).json({response: "unexpected server error"})
     }
     
+    
+})
+
+router.delete('/', authenticateUser, async (req, res) => {
+    const {username} = req.body;
+    const deleatedUser = await Users.deleteOne({username});
+    
+    res.json({response: "user deleted succesfully"})
 });
+
 
 module.exports = router;
