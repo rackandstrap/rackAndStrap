@@ -45,11 +45,11 @@ const Login = ({userInfo, auth}) =>{
         try{
             let result = await axios({
                 method:'post',
-                url: 'http://localhost:3000/user/',
+                url: 'http://localhost:3000/users/login',
                 data: {'username': username,   
                         'password': password}
                 })
-            console.log(result.data)
+            // console.log(result.data)
             auth(result.data);
         } catch(error){
             console.error("Cannot AUTH user!");
@@ -63,8 +63,8 @@ const Login = ({userInfo, auth}) =>{
         //For example pwd lenght more than 6
         let validPWD = false;
         if(newUser.password === newUser.confirmpassword){
-            console.log(newUser.password)
-            console.log(newUser.confirmpassword)
+            // console.log(newUser.password)
+            // console.log(newUser.confirmpassword)
             validPWD = true;
         }
 
@@ -77,10 +77,10 @@ const Login = ({userInfo, auth}) =>{
             try{
                 let result = await axios({
                     method:'post',
-                    url: 'http://localhost:3000/user/create',
+                    url: 'http://localhost:3000/users/register',
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
-                console.log(result.data)
+                // console.log(result.data)
                 auth(result.data);
             } catch (error){
                 console.error("Cannot create new user", error);
@@ -97,7 +97,6 @@ const Login = ({userInfo, auth}) =>{
     if(!userInfo.username){
         return(
             <div className="Auth-window">
-                
                 <div  className="login-window"> Login
                     <form onSubmit={attempLogin}>
                         <div className="form-group">
