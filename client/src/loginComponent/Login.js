@@ -8,6 +8,7 @@ import './login.css';
 import fbLogo from './logo/f_logo_RGB-Blue_58.png';
 import googleLogo from './logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
+
 const axios = require('axios')
 
 const Login = ({userInfo, auth}) =>{
@@ -36,33 +37,28 @@ const Login = ({userInfo, auth}) =>{
         setPassword(e.target.value);
     }
 
-    const attempLogin=(event)=>{
+    const attempLogin=async(event)=>{
         event.preventDefault();
         
-        console.log(username, password);
+        // console.log(username, password);
         // const loginObject = {'username': username, 'password': password}
-        
-        axios({
-            method:'get',
-            url: 'http://localhost:3000/user',
-            data: {username: 'user1',   
-                    password: 'password1'}
-        }).then(response => console.log(response.data))
-
-            // Handle successful response
+        try{
+            let result = await axios({
+                method:'post',
+                url: 'http://localhost:3000/user/',
+                data: {'username': username,   
+                        'password': password}
+                })
+            console.log(result.data)
+            auth(result.data);
+        } catch(error){
+            console.error("Cannot AUTH user!");
+        }
     }
 
-    const attempSignUp=(event)=>{
+    const attempSignUp = async(event)=>{
         event.preventDefault();
-        ///check user in the database
-        let foundDuplicate = false;
-        for(let i of user){
-            if (i.username === newUser.username){
-                console.error('userName already taken');
-                foundDuplicate = true;
-                break;
-            }
-        }
+    
         //We might want to do some min req for password strength
         //For example pwd lenght more than 6
         let validPWD = false;
@@ -72,26 +68,28 @@ const Login = ({userInfo, auth}) =>{
             validPWD = true;
         }
 
-        if(foundDuplicate){
-            console.error('userName already taken');
-        }
         if(!validPWD){
             console.error('password need to match');
         }
 
-        if(!foundDuplicate && validPWD){
+        if(validPWD){
 
-            auth({'username':newUser.username,
-                    'name': "Placeholder here",
-                    'homebase':'',
-                    'job': [],
-                    'provide': []});
+            try{
+                let result = await axios({
+                    method:'post',
+                    url: 'http://localhost:3000/user/create',
+                    data: {'username': newUser.username, 'password': newUser.password}
+                    })
+                console.log(result.data)
+                auth(result.data);
+            } catch (error){
+                console.error("Cannot create new user", error);
+            }
             
         }
     }
 
     const handleNewUser=(event)=>{
-        // event.preventDefault();
         console.log(event.target.name, event.target.value);
         setNewUser({...newUser,[event.target.name]: event.target.value});
     }
@@ -104,11 +102,11 @@ const Login = ({userInfo, auth}) =>{
                     <form onSubmit={attempLogin}>
                         <div className="form-group">
                             <label>Username:</label>
-                            <input type="text" value={username} onChange={handleUserNameChange}/>
+                            <input type="text" value={username} onChange={handleUserNameChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Password:</label>
-                            <input type="password" value={password} onChange={handlePasswordChange}/>
+                            <input type="password" value={password} onChange={handlePasswordChange} required/>
                         </div>
                         <button type ="Login">Login</button>
                     </form>
@@ -134,7 +132,7 @@ const Login = ({userInfo, auth}) =>{
                                     required/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="confirmpwd">Confirm PW:</label>
+                            <label htmlFor="confirmpwd">Confirm pwd:</label>
                             <input name="confirmpassword"
                                     type="password" 
                                     value={newUser.confirmpassword} 
@@ -144,8 +142,8 @@ const Login = ({userInfo, auth}) =>{
                         <button type ="Sign Up">Sign Up</button>
                         
                         <div className = "third-party-auth"> 
-                            <img src={fbLogo} alt="Image" />
-                            <img src={googleLogo} alt="Image" />
+                            <img id="fblogo" src={fbLogo} alt="Image" />
+                            <img id="glogo" src={googleLogo} alt="Image" />
                         </div>
                     </form>
                 </div>
