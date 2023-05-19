@@ -19,7 +19,6 @@ const Login = ({userInfo, auth}) =>{
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
-    const[validuser, setValidUser] = useState();
 
     const[newUser, setNewUser] = useState({
         username: '',
@@ -73,7 +72,6 @@ const Login = ({userInfo, auth}) =>{
         }
 
         if(validPWD){
-
             try{
                 let result = await axios({
                     method:'post',
@@ -85,7 +83,6 @@ const Login = ({userInfo, auth}) =>{
             } catch (error){
                 console.error("Cannot create new user", error);
             }
-            
         }
     }
 
@@ -156,8 +153,6 @@ const Login = ({userInfo, auth}) =>{
             // </div>
         )
     }
-    
-
 }
 
 const mapStateToProps = (state) =>{
