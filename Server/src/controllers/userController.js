@@ -46,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user exists
-  const userExists = await Users.findOne({ username  })
+  const userExists = await Users.findOne({ username })
 
   if (userExists) {
     res.status(400)
@@ -62,12 +62,10 @@ const registerUser = asyncHandler(async (req, res) => {
   user.password = hashedPassword
   const createdUser = await Users.create(user)
 
-  if (user) {
+  if (createdUser) {
     res.status(201).json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
+        createdUser,
+        token: generateToken(createdUser._id)
     })
   } else {
     res.status(400)
@@ -79,11 +77,11 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body
 
-  const user = await Users.findOne({ email })
+  const user = await Users.findOne({ username })
 
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
-      ...user,
+      user,
       token: generateToken(user._id)
     })
   } else {
@@ -93,19 +91,31 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 
+const updateUser = asyncHandler(async (req, res) => {
+    const auth = req.headers['authorization']
+    if (auth) {
+        const token = auth.split(' ')[1]
+        console.log(token)
+        return res.status(200).json({response: "received"})
+    } else {
+        return res.status(400).json({response: "no token provided"})
+    }
+})
+
 const getSelf = asyncHandler(async (req, res) => {
   res.status(200).json(req.user)
 })
 
 // Generate JWT
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET)
+  return jwt.sign({id}, process.env.JWT_SECRET)
 }
 
 module.exports = {
   registerUser,
   loginUser,
   getSelf,
-  authenticateUser
+  authenticateUser,
+  updateUser
 }
 

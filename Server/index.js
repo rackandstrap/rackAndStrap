@@ -16,7 +16,7 @@ app.use('/users', require('./src/routes/userRoutes'));
 // Handle all requests
 app.use('*', (req, res) => {
     console.log(`request received from ip address - ${req.ip}`);
-    res.json({response: 'response'});
+    res.json({response: 'catch all'});
 });
 
 // start the server and listen on port 3000
