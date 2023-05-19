@@ -13,7 +13,7 @@ router.get('/:all', async (req, res) => {
     }
 })
 
-router.get('/', authenticateUser , async (req, res) => {
+router.post('/login', authenticateUser , async (req, res) => {
     const {username} = req.body;
     const user = await Users.findOne({username});
 
@@ -21,7 +21,7 @@ router.get('/', authenticateUser , async (req, res) => {
     res.json(user);
 })
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         const userExists = await Users.findOne({username: req.body.username});
 
