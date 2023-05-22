@@ -1,16 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useState, useEffect } from "react"
 
-const User=({userInfo})=>{
+import { useSelector, useDispatch } from "react-redux";
 
-    
+const User=()=>{
+
+    const userInfo2 = useSelector(state => state.userInfo);
+
+    console.log(userInfo2);
+
     return(
         <div>Profile View
-            <p>username:{userInfo.username}</p>
-            <p>name:{userInfo.name}</p>
-            <p>homebase:{userInfo.homebase}</p>
-            <p>job:{userInfo.job}</p>
-            <p>provide:{userInfo.provide}</p>
+            <p>username:{userInfo2.username}</p>
+            <p>name:{userInfo2.name}</p>
+            <p>homebase:{userInfo2.homebase}</p>
+            <p>job:{userInfo2.job}</p>
+            <p>provide:{userInfo2.provide}</p>
         </div>
     )
 }
@@ -21,4 +26,4 @@ const mapStateToProps = (state) =>{
     };
 }
 
-export default connect(mapStateToProps) (User);
+export default User;

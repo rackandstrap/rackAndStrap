@@ -3,22 +3,28 @@ import { useState, useEffect } from "react";
 import user from '../userList';
 import User from '../userComponent/UserProfile';
 import { connect } from "react-redux";
-import { auth } from '../action';
+// import { auth } from '../action';
 import './login.css';
 import fbLogo from './logo/f_logo_RGB-Blue_58.png';
 import googleLogo from './logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import { auth } from "../authUser";
 
 const axios = require('axios')
 
-const Login = ({userInfo, auth}) =>{
+const Login = () =>{
 
     /*
     We can just use userInfo from our store as we need.
     */
+    const userInfo = useSelector(state => state.userInfo);
+    // console.log(userInfo)
+    const dispatch = useDispatch()
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
+    const[loggedInStatus, setLoggedInStatus] = useState(false);
 
     const[newUser, setNewUser] = useState({
         username: '',
@@ -49,7 +55,9 @@ const Login = ({userInfo, auth}) =>{
                         'password': password}
                 })
             // console.log(result.data)
-            auth(result.data);
+            dispatch(auth(result.data))
+            setLoggedInStatus(true);
+            
         } catch(error){
             console.error("Cannot AUTH user!");
         }
@@ -79,7 +87,11 @@ const Login = ({userInfo, auth}) =>{
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
                 // console.log(result.data)
-                auth(result.data);
+                // auth(result.data);
+                
+                dispatch(auth(result.data));
+                setLoggedInStatus(true);
+
             } catch (error){
                 console.error("Cannot create new user", error);
             }
@@ -91,7 +103,10 @@ const Login = ({userInfo, auth}) =>{
         setNewUser({...newUser,[event.target.name]: event.target.value});
     }
 
-    if(!userInfo.username){
+    // console.log("userInfo", loggedInStatus);
+
+    if(!loggedInStatus){
+        // console.log(userInfo.username);
         return(
             <div className="Auth-window">
                 <div  className="login-window"> Login
@@ -155,14 +170,4 @@ const Login = ({userInfo, auth}) =>{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        userInfo: state.userInfo,
-    };
-};
-
-const mapDispatchToProps = {
-    auth,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps) (Login);
+export default Login;
