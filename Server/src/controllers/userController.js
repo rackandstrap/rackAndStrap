@@ -102,6 +102,11 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+
+const deleatedUser = asyncHandler(async (req, res) => {
+    
+})
+
 const getSelf = asyncHandler(async (req, res) => {
   res.status(200).json(req.user)
 })
