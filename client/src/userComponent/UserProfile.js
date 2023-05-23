@@ -12,6 +12,7 @@ const User=()=>{
     return(
         <div>Profile View
             <p>username:{userInfo2.username}</p>
+            <p>userID:{userInfo2._id}</p>
             <p>name:{userInfo2.name}</p>
             <p>homebase:{userInfo2.homebase}</p>
             <p>job:{userInfo2.job}</p>

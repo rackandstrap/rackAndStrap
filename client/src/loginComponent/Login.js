@@ -1,15 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import user from '../userList';
 import User from '../userComponent/UserProfile';
-import { connect } from "react-redux";
-// import { auth } from '../action';
 import './login.css';
 import fbLogo from './logo/f_logo_RGB-Blue_58.png';
 import googleLogo from './logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import { auth } from "../authUser";
+import { auth } from "../slice/authUserSlice";
 
 const axios = require('axios')
 
@@ -55,7 +52,7 @@ const Login = () =>{
                         'password': password}
                 })
             // console.log(result.data)
-            dispatch(auth(result.data))
+            dispatch(auth(result.data.user))
             setLoggedInStatus(true);
             
         } catch(error){
@@ -89,7 +86,7 @@ const Login = () =>{
                 // console.log(result.data)
                 // auth(result.data);
                 
-                dispatch(auth(result.data));
+                dispatch(auth(result.data.createdUser));
                 setLoggedInStatus(true);
 
             } catch (error){
