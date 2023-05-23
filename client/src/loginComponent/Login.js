@@ -19,11 +19,11 @@ const Login = () =>{
     We can just use userInfo from our store as we need.
     */
     const userInfo = useSelector(state => state.userInfo);
-    // console.log(userInfo)
     const dispatch = useDispatch()
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
+
     const[loggedInStatus, setLoggedInStatus] = useState(false);
 
     const[newUser, setNewUser] = useState({
