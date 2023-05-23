@@ -1,10 +1,15 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
 
-//note we might have to change this to redux toolkit
+// //I assume you can add more "reducer" to this store. 
 
-const store = createStore(reducer);
+// export default store;
 
-//I assume you can add more "reducer" to this store. 
+import { configureStore } from '@reduxjs/toolkit'
+import authUser from './slice/authUserSlice'
+import loginState from './slice/loginSlice'
 
-export default store;
+export default configureStore({
+    reducer: {
+        userInfo: authUser,
+        loginStateValue: loginState
+    }
+})
