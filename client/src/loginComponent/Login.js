@@ -52,9 +52,11 @@ const Login = () =>{
                         'password': password}
                 })
             // console.log(result.data)
+
             dispatch(auth(result.data.user))
             setLoggedInStatus(true);
             
+
         } catch(error){
             console.error("Cannot AUTH user!");
         }
@@ -84,6 +86,7 @@ const Login = () =>{
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
                 // console.log(result.data)
+
                 // auth(result.data);
                 
                 dispatch(auth(result.data.createdUser));
@@ -166,5 +169,6 @@ const Login = () =>{
         )
     }
 }
+
 
 export default Login;
