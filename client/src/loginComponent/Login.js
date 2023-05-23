@@ -49,7 +49,7 @@ const Login = ({userInfo, auth}) =>{
                         'password': password}
                 })
             // console.log(result.data)
-            auth(result.data);
+            auth(result.data.user);
         } catch(error){
             console.error("Cannot AUTH user!");
         }
@@ -79,7 +79,7 @@ const Login = ({userInfo, auth}) =>{
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
                 // console.log(result.data)
-                auth(result.data);
+                auth(result.data.createdUser);
             } catch (error){
                 console.error("Cannot create new user", error);
             }
