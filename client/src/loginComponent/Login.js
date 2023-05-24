@@ -47,7 +47,7 @@ const Login = () =>{
         try{
             let result = await axios({
                 method:'post',
-                url: 'http://localhost:3000/users/login',
+                url: 'http://localhost:3001/users/login',
                 data: {'username': username,   
                         'password': password}
                 })
@@ -55,8 +55,7 @@ const Login = () =>{
 
             dispatch(auth(result.data.user))
             setLoggedInStatus(true);
-            
-
+        
         } catch(error){
             console.error("Cannot AUTH user!");
         }
@@ -82,7 +81,7 @@ const Login = () =>{
             try{
                 let result = await axios({
                     method:'post',
-                    url: 'http://localhost:3000/users/register',
+                    url: 'http://localhost:3001/users/register',
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
                 // console.log(result.data)
