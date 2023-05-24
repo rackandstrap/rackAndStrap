@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Users = require('../models/userModel')
 const bcrypt = require('bcrypt');
-const {registerUser, loginUser, getSelf, authenticateUser, updateUser} = require('../controllers/userController')
+const {registerUser, loginUser, getSelf, updateUser} = require('../controllers/userController')
+const authenticateUser = require('../middleware/index')
 
 
 router.get('/:all', async (req, res) => {
@@ -21,10 +22,12 @@ router.post('/register', registerUser)
 router.patch('/', updateUser)
 
 router.delete('/', authenticateUser, async (req, res) => {
-    const {username} = req.body;
-    const deleatedUser = await Users.deleteOne({username});
+    // const {username} = req.body;
+    // const deleatedUser = await Users.deleteOne({username});
     
-    res.json({response: "user deleted succesfully"})
+    // res.json({response: "user deleted succesfully"})
+    console.log('you reached the second function')
+    return res.status(200)
 });
 
 
