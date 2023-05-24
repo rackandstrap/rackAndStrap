@@ -19,7 +19,7 @@ router.post('/login', loginUser)
 
 router.post('/register', registerUser)
 
-router.patch('/', updateUser)
+router.patch('/', authenticateUser ,updateUser)
 
 router.delete('/', authenticateUser, async (req, res) => {
     // const {username} = req.body;
@@ -27,7 +27,8 @@ router.delete('/', authenticateUser, async (req, res) => {
     
     // res.json({response: "user deleted succesfully"})
     console.log('you reached the second function')
-    return res.status(200)
+    console.log(req.user)
+    return res.status(200).json({response: "user deleted succesfully"})
 });
 
 
