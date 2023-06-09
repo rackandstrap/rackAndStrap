@@ -31,9 +31,8 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Job' 
     }],
-    provide: {
-        type: Array,
-        default: []
+    rating: {
+        type: Number
     }
 },
     {

@@ -9,6 +9,11 @@ const jobSchema = new mongoose.Schema({
         ref: "User",
         required: true
     }, 
+    type: {
+        type: String,
+        required: true,
+        required: [true, "Please enter a type (request || provide)"]
+    },
     title: {
         type: String,
         required: [true, "Please enter a title"],
@@ -18,13 +23,26 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter a description"],
     },
+    bid: {
+        type: Number
+    },
     from: {
-        type: String,
+        type: Object,
         required: [true, "Please enter location you're departing from"]
     },
-    to: {
-        type: String,
+    destination: {
+        type: Object,
         required: [true, "Please enter destination"]
+    },
+    leaveDate: {
+        type: Date
+    },
+    arrivalDate: {
+        type: Date
+    },
+    status: {
+        type: String,
+        default: 'open'
     }
 },
     {
