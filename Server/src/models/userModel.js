@@ -27,13 +27,12 @@ const userSchema = new mongoose.Schema({
     homebase: {
         type: String
     },
-    jobs: {
-        type: Array,
-        default: []
-    },
-    provide: {
-        type: Array,
-        default: []
+    jobs: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Job' 
+    }],
+    rating: {
+        type: Number
     }
 },
     {
