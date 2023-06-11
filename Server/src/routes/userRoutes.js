@@ -3,7 +3,7 @@ const router = express.Router();
 const Users = require('../models/userModel')
 const bcrypt = require('bcrypt');
 const {registerUser, loginUser, getSelf, updateUser} = require('../controllers/userController')
-const authenticateUser = require('../middleware/index')
+const {authenticateUser} = require('../middleware/index')
 
 
 router.get('/:all', async (req, res) => {
@@ -33,3 +33,5 @@ router.delete('/', authenticateUser, async (req, res) => {
 
 
 module.exports = router;
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjY4ZmEwMDZkNDNiNDg4ZWY5NDliNCIsImlhdCI6MTY4NjQzMzk4M30.VoPf46pqIXJxUr2mhXiwQCEGu3BxiHsG3htUkxKmwQ8

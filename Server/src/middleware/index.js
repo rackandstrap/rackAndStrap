@@ -6,17 +6,16 @@ require('dotenv').config('../config/.env');
 const authenticateUser = async (req, res, next) => {
 
     const token = req.headers.authorization.split(' ')[1];
-    console.log(token)
+
     if (!token) {
         return res.status(403).json({response: "please include a token"})
     }
 
     const data = jwt.verify(token, process.env.JWT_SECRET)
-    console.log(data)
 
     if (data) {
-        // const user = await User.findOne({_id: data.id})
-        req.userId = data.id;
+        const user = await User.findOne({_id: data.id})
+        req.user = user;
         next()
     } else {
         res.status(403).json({response: "error"})
@@ -32,5 +31,5 @@ const authenticateUser = async (req, res, next) => {
 
 }
 
-module.exports = authenticateUser
+module.exports = {authenticateUser}
 

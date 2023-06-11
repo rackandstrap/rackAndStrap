@@ -3,13 +3,19 @@ const asyncHandler= require('express-async-handler')
 
 
 const getJob = asyncHandler(async (req, res) => {
-
+    const jobId = req.params.jobId
+    const job = await Jobs.findById(jobId).populate('postedBy')
+    if (job) {
+        res.json(job)
+    } else {
+        res.status(404).send('Job not found');
+    }
 })
 
-const getAllJobs = asyncHandler(async (req, res) => {
+const getJobs = asyncHandler(async (req, res) => {
     try {
-        const jobs = await jobs.find().limit(req.params.num)
-        res.json(jobs)
+        const job = await Jobs.find().limit(req.params.num).populate('postedBy')
+        res.json(job)
     } 
     catch (err) {
         res.status(500).json({error: err.message})
@@ -18,23 +24,36 @@ const getAllJobs = asyncHandler(async (req, res) => {
 
 const addJob = asyncHandler(async (req, res) => {
     const job = req.body
-    job.createdBy = req.userId
+    job.postedBy = req.user.id
     const createdJob = await Jobs.create(job)
-    res.status(201).json({job: createdJob})
+    const user = req.user
+    user.jobs.push(createdJob._id)
+    user.save()
+    res.status(201).json({job: createdJob, user: user})
 })
 
 const editJob = asyncHandler(async (req, res) => {
-
+    const job = Jobs.findById(req.user.id)
+    
 })
 
 const deleteJob = asyncHandler(async (req, res) => {
-
+    const jobId = req.params.jobId
+    if (!jobId in req.user.jobs) {
+        res.status(404).json({response: 'Job not found'});
+    } else {
+        const deletedJob = await Jobs.findByIdAndDelete(req.user.id)
+        if (deletedJob) {
+            res.json(deletedJob)
+        } else {
+            res.status(404).json({response: 'Job not found'});
+        }
+    }
 })
-
 
 module.exports = {
     getJob,
-    getAllJobs,
+    getJobs,
     addJob,
     editJob,
     deleteJob

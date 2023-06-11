@@ -14,7 +14,7 @@ app.use(cors());
 app.use('/users', require('./src/routes/userRoutes'));
 
 // handle request to /jobs
-// app.use('/jobs', require('./src/routes/jobRoutes'));
+app.use('/jobs', require('./src/routes/jobRoutes'));
 
 // Handle all requests
 app.use('*', (req, res) => {
