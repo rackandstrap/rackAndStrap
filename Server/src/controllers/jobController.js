@@ -14,7 +14,7 @@ const getJob = asyncHandler(async (req, res) => {
 
 const getJobs = asyncHandler(async (req, res) => {
     try {
-        const job = await Jobs.find().limit(req.params.num).populate('postedBy')
+        const job = await Jobs.find().limit(parseInt(req.query.limit)).populate('postedBy')
         res.json(job)
     } 
     catch (err) {
@@ -33,8 +33,13 @@ const addJob = asyncHandler(async (req, res) => {
 })
 
 const editJob = asyncHandler(async (req, res) => {
-    const job = Jobs.findById(req.user.id)
-    
+    try {
+        const updatedJob = await Jobs.findByIdAndUpdate(req.params.jobId, req.body, {new: true})
+        res.json(updatedJob)
+    } 
+    catch (err) {
+        res.status(500).send('server error')
+    }
 })
 
 const deleteJob = asyncHandler(async (req, res) => {
