@@ -23,13 +23,18 @@ const getJobs = asyncHandler(async (req, res) => {
 })
 
 const addJob = asyncHandler(async (req, res) => {
-    const job = req.body
-    job.postedBy = req.user.id
-    const createdJob = await Jobs.create(job)
-    const user = req.user
-    user.jobs.push(createdJob._id)
-    user.save()
-    res.status(201).json({job: createdJob, user: user})
+    try {
+        const job = req.body
+        const user = req.user
+        job.postedBy = user.id
+        const createdJob = await Jobs.create(job)
+        user.jobs.push(createdJob._id)
+        user.save()
+        res.status(201).json({job: createdJob, user: user})
+    } 
+    catch (err) {
+        res.status(400).send('something went wrong')
+    }
 })
 
 const editJob = asyncHandler(async (req, res) => {
@@ -43,17 +48,20 @@ const editJob = asyncHandler(async (req, res) => {
 })
 
 const deleteJob = asyncHandler(async (req, res) => {
+    const user = req.user
     const jobId = req.params.jobId
-    if (!jobId in req.user.jobs) {
+    if (!user.jobs.includes(jobId)) {
         res.status(404).json({response: 'Job not found'});
     } else {
-        const deletedJob = await Jobs.findByIdAndDelete(req.user.id)
+        const deletedJob = await Jobs.findByIdAndDelete(jobId)
         if (deletedJob) {
-            res.json(deletedJob)
+            user.jobs.remove(jobId)
+            user.save()
+            res.json({deletedJob: deletedJob, user: user})
         } else {
             res.status(404).json({response: 'Job not found'});
         }
-    }
+    } 
 })
 
 module.exports = {
