@@ -7,6 +7,7 @@ import googleLogo from './logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../slice/authUserSlice";
+import {login, logout} from "../slice/loginSlice.js"
 
 const axios = require('axios')
 
@@ -17,6 +18,10 @@ const Login = () =>{
     */
     const userInfo = useSelector(state => state.userInfo);
     const dispatch = useDispatch()
+
+    const login_status = useSelector(state =>state.loginStateValue.value);
+    console.log(login_status);
+
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
@@ -54,7 +59,7 @@ const Login = () =>{
             // console.log(result.data)
 
             dispatch(auth(result.data.user))
-            setLoggedInStatus(true);
+            dispatch(login())
         
         } catch(error){
             console.error("Cannot AUTH user!");
@@ -89,7 +94,7 @@ const Login = () =>{
                 // auth(result.data);
                 
                 dispatch(auth(result.data.createdUser));
-                setLoggedInStatus(true);
+                dispatch(login())
 
             } catch (error){
                 console.error("Cannot create new user", error);
@@ -104,7 +109,7 @@ const Login = () =>{
 
     // console.log("userInfo", loggedInStatus);
 
-    if(!loggedInStatus){
+    if(login_status == false){
         // console.log(userInfo.username);
         return(
             <div className="Auth-window">
