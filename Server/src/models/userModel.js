@@ -1,12 +1,4 @@
 const mongoose = require('mongoose');
-/*
-username
-password
-name
-homebase
-job [...]
-provide [...]
-*/
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -27,13 +19,13 @@ const userSchema = new mongoose.Schema({
     homebase: {
         type: String
     },
-    jobs: {
-        type: Array,
-        default: []
-    },
-    provide: {
-        type: Array,
-        default: []
+    jobs: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Job' 
+    }],
+    rating: {
+        type: Number,
+        default: null
     }
 },
     {
