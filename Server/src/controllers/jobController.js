@@ -43,7 +43,7 @@ const editJob = asyncHandler(async (req, res) => {
         res.json(updatedJob)
     } 
     catch (err) {
-        res.status(500).send('server error')
+        res.status(400).send(err.message)
     }
 })
 

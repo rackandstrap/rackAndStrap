@@ -3,6 +3,17 @@ const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 
+
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const users = await Users.find().limit(req.query.limit);
+    res.json(users)
+  }
+  catch (err) {
+    res.status(400).send(err.message)
+  }
+})
+
 const registerUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body
 
@@ -68,13 +79,14 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
-
 const deleteUser = asyncHandler(async (req, res) => {
-    
-})
-
-const getSelf = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user)
+  try {
+    const deleatedUser = await Users.findByIdAndDelete(req.user.id);
+    res.json(deleatedUser)
+  }
+  catch (err) {
+      res.status(404).json({error: err.message})
+  }
 })
 
 // Generate JWT
@@ -85,8 +97,8 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
-  getSelf,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUsers
 }
 
