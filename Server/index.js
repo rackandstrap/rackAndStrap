@@ -13,6 +13,9 @@ app.use(cors());
 // handle request to /users
 app.use('/users', require('./src/routes/userRoutes'));
 
+// handle request to /jobs
+app.use('/jobs', require('./src/routes/jobRoutes'));
+
 // Handle all requests
 app.use('*', (req, res) => {
     console.log(`request received from ip address - ${req.ip}`);
