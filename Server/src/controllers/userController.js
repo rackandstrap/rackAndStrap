@@ -3,39 +3,16 @@ const bcrypt = require('bcrypt')
 const asyncHandler = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 
-const authenticateUser = async (req, res, next) => {
-    try {
-        let username;
-        let password;
 
-        if (req.body.creds) {
-            username = req.body.creds.username;
-            password = req.body.creds.password;
-        } else {
-            username = req.body.username;
-            password = req.body.password;
-        }
-
-        const user = await Users.findOne({username});
-
-        if (!user) {
-            return res.status(404).json({response: "username does not exist"});
-        } 
-
-        const correctPassword = await bcrypt.compare(password, user.password);
-
-        if (correctPassword) {
-            next();
-        } else {
-            return res.status(400).json({error: "Invalid Password"})
-        }
-    }
-
-    catch (error) {
-        res.status(500).json({error: "Server error"})
-    }
-}
-
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const users = await Users.find().limit(req.query.limit);
+    res.json(users)
+  }
+  catch (err) {
+    res.status(400).send(err.message)
+  }
+})
 
 const registerUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body
@@ -92,18 +69,24 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const updateUser = asyncHandler(async (req, res) => {
-    const auth = req.headers['authorization']
-    if (auth) {
-        const token = auth.split(' ')[1]
-        console.log(token)
-        return res.status(200).json({response: "received"})
-    } else {
-        return res.status(400).json({response: "no token provided"})
+    try {
+        const updates = req.body
+        const user = await Users.findOneAndUpdate({_id: req.user._id}, updates, {new: true})
+        res.json(user)
+    }
+    catch (err) {
+        res.status(400).json({error: err})
     }
 })
 
-const getSelf = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user)
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const deleatedUser = await Users.findByIdAndDelete(req.user.id);
+    res.json(deleatedUser)
+  }
+  catch (err) {
+      res.status(404).json({error: err.message})
+  }
 })
 
 // Generate JWT
@@ -114,8 +97,8 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
-  getSelf,
-  authenticateUser,
-  updateUser
+  updateUser,
+  deleteUser,
+  getUsers
 }
 
