@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 import JobCard from "../JobCard";
+
 const JobListing = () => {
     const [jobListings, setJobListings] = useState([])
 
@@ -16,9 +17,7 @@ const JobListing = () => {
 
 
     let JSXJobListing = jobListings.map((job) => {
-        return (
-            <h1>{job.title}</h1>
-        )
+        return <JobCard job={job} />
     })
 
 
