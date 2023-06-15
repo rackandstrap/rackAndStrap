@@ -1,9 +1,32 @@
 import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
+import JobCard from "../JobCard";
 const JobListing = () => {
+    const [jobListings, setJobListings] = useState([])
+
+    useEffect(() => {
+        const getJobsData = async () => {
+          const res = await axios('http://localhost:3001/jobs');
+          setJobListings(res.data);
+      }
+      getJobsData()
+    }, []);
+
+
+    let JSXJobListing = jobListings.map((job) => {
+        return (
+            <h1>{job.title}</h1>
+        )
+    })
+
+
     return (
         <div>
-            <h1>JobListing</h1>
+            <section className="jobs-post">
+                {JSXJobListing}
+            </section>
         </div>
     );
 }
