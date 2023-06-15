@@ -56,7 +56,7 @@ const Login = () =>{
                 data: {'username': username,   
                         'password': password}
                 })
-            // console.log(result.data)
+            console.log(result.data)
 
             dispatch(auth(result.data.user))
             dispatch(login())
@@ -89,8 +89,8 @@ const Login = () =>{
                     url: 'http://localhost:3001/users/register',
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
-                // console.log(result.data)
-
+                console.log(result.data.token)
+                
                 // auth(result.data);
                 
                 dispatch(auth(result.data.createdUser));
