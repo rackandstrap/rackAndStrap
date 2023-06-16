@@ -6,10 +6,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authUser from './slice/authUserSlice'
 import loginState from './slice/loginSlice'
+import token from './slice/tokenSlice'
 
 export default configureStore({
     reducer: {
         userInfo: authUser,
-        loginStateValue: loginState
+        loginStateValue: loginState,
+        userToken: token
     }
 })

@@ -8,6 +8,7 @@ import googleLogo from './logo/Google__G__Logo.svg.png';
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../slice/authUserSlice";
 import {login, logout} from "../slice/loginSlice.js"
+import { setToken } from "../slice/tokenSlice";
 
 const axios = require('axios')
 
@@ -59,6 +60,7 @@ const Login = () =>{
             // console.log(result.data)
 
             dispatch(auth(result.data.user))
+            dispatch(setToken(result.data.token))
             dispatch(login())
         
         } catch(error){
