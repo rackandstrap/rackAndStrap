@@ -1,0 +1,32 @@
+/* .card-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 10px;
+} */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 10px;
+}
+.created-by-user {
+    background: blanchedalmond;
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-container p h1 {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 340px;
+    margin: 10px;
+}

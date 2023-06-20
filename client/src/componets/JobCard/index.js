@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css"
 
 
 const JobCard = ({job}) => {
@@ -6,7 +7,7 @@ const JobCard = ({job}) => {
     console.log(job)
     return (
         <div className="card-container">
-            <div>{job.postedBy.username}</div>
+            <div className="created-by-user">{job.postedBy.username}</div>
             <p>{job.description}</p>
             <h1>{job.title}</h1>
 

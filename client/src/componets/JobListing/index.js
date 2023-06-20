@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./index.css"
 import { useState, useEffect } from "react";
 
 import JobCard from "../JobCard";
@@ -23,7 +24,7 @@ const JobListing = () => {
 
     return (
         <div>
-            <section className="jobs-post">
+            <section className="job-posts">
                 {JSXJobListing}
             </section>
         </div>
