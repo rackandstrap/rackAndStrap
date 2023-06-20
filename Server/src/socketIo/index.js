@@ -13,7 +13,7 @@ const createWebSocket = (httpServer) => {
 
         socket.on('message', (message) => {
             console.log('Received message:', message);
-            socket.emit('message', `Server received: ${message}`);
+            socket.broadcast.emit('message', `message: ${message} - Id: ${socket.id}`);
         });
         
         socket.on('disconnect', () => {
