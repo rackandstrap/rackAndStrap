@@ -18,11 +18,11 @@ const createWebSocket = (httpServer) => {
         });
         
         // Handle private messages
-        socket.on('privateMessage', ({ recipientName, message }) => {
+        socket.on('privateMessage', ({ senderName, recipientName, message }) => {
             const recipientSocketId = users[recipientName];
             if (recipientSocketId) {
                 // Send the private message to the recipient socket
-                io.to(recipientSocketId).emit('privateMessage', { senderId: socket.id, content: message });
+                io.to(recipientSocketId).emit('privateMessage', { sender: senderName, content: message });
             }
         });
 

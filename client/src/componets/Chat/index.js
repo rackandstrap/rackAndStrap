@@ -46,7 +46,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import './index.css';
-import message from './Message';
+
+
+let names = ['sam', 'bob', 'fred', 'maria', 'sataporn', 'jon', 'jason', 'zarema']
+const index =  Math.floor(Math.random() * names.length);
+console.log(names[index])
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -54,17 +58,17 @@ const Chat = () => {
 
   useEffect(() => {
     socketRef.current = io('http://localhost:3001'); // Assign the socket instance to the current property
-
-    let names = ['sam', 'bob', 'fred', 'maria', 'sataporn', 'jon']
-    const index =  Math.floor(Math.random() * names.length);
-    console.log(names[index])
+    
+    socketRef.current.on('privateMessage', (message) => setMessages((prevMessages) => [...prevMessages, message]));
 
     socketRef.current.on('connect', () => {
+
       socketRef.current.emit('userConnected', names[index])
+      
       console.log(`Connected`)
+      
     })
 
-    socketRef.current.on('privateMessage', (message) => setMessages((prevMessages) => [...prevMessages, message.content]));
 
     // Clean up the socket connection when the component unmounts
     return () => {
@@ -74,14 +78,20 @@ const Chat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socketRef.current.emit('privateMessage', {recipientName: e.target.elements.recipient.value, message: e.target.elements.message.value});
+    socketRef.current.emit('privateMessage', {senderName: names[index], recipientName: e.target.elements.recipient.value, message: e.target.elements.message.value});
   };
 
   return (
     <div id="chatBox">
       <div id="output">
         {messages.map((message) => {
-          return <p key={message}>{message}</p>;
+          return (
+            <div id='message' key={Math.random()}>
+              <p>{message.content}</p>
+              <p>from: {message.sender}</p>
+            </div>
+          )
+          
         })}
       </div>
       <form onSubmit={handleSubmit}>

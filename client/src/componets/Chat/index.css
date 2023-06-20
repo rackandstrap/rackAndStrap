@@ -5,3 +5,8 @@
     height: 500px;
     border: solid blue 2px;
 }
+
+#message {
+    display: flex;
+    justify-content: space-between;
+}
