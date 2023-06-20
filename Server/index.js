@@ -1,7 +1,11 @@
+const http = require('http');
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = 3001
+
+const server = http.createServer(app);
+const createWebSocket = require('./src/socketIo/index')(server);
 
 const connectToDB = require('./src/config/db')
 // Connect to the database
@@ -22,5 +26,5 @@ app.use('*', (req, res) => {
     res.json({response: 'catch all'});
 });
 
-// start the server and listen on port 3000
-app.listen(port, () => console.log('listening on port ' + port));
+// start the server and listen on port 3001
+server.listen(port, () => console.log('listening on port ' + port));
