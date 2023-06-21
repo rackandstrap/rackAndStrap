@@ -11,12 +11,11 @@ function App() {
 
   return (
     <div className="App">
-      Rack and Strap
       <Navigate/>
+      Rack and Strap
       <LandingPage />
       <Login/>
       <JobListing />
-      {/* <User/> */}
     </div>
   );
 }

@@ -1,16 +1,39 @@
 import React from "react";
+import  { GiCanoe, GiPaddles, GiSailboat, GiDutchBike } from "react-icons/gi"
+import { useState } from "react";
 import "./index.css"
 
 
-const JobCard = ({job}) => {
+const JobCard = ({ job }) => {
+    
+    let itemsFromJob = [];
 
-    console.log(job)
+   for (let item in job.items) {
+    if(item === "bike" || "canoo" || "boat" || "jetski") {
+        itemsFromJob.push(item)
+    }
+   }
+
+   let itemJSX = itemsFromJob.map((item) => {
+    if (item === "bike") {
+        return  <GiDutchBike size={50} style={{backgroundColor: "lightGreen"}}/>
+    } else if (item === "canoo") {
+        return  <GiCanoe size={50} width={245} style={{backgroundColor: "lightGreen"}}/>
+    } else if (item === "boat") {
+        return <GiSailboat size={50} style={{backgroundColor: "lightGreen"}}/>
+    } else {
+        return <GiPaddles size={50} style={{backgroundColor: "lightGreen"}}/>
+    }
+   }) 
+
     return (
         <div className="card-container">
             <div className="created-by-user">{job.postedBy.username}</div>
-            <p>{job.description}</p>
-            <h1>{job.title}</h1>
-
+            <div className="icon-for-equipment">
+                {/* {job.description} */}
+                {itemJSX}
+            </div>
+            <p>{job.title}</p>
             <section className="location">
                 <div className="origin">
                     {job.from.city},
@@ -19,9 +42,10 @@ const JobCard = ({job}) => {
                 <div className="destination">
                     {job.destination.city},
                     {job.destination.state}
+                    {job.destination.items}
                 </div>
             </section>
-            <div>{job.status}</div>
+            <div>{job.type}</div>
         </div>
     );
 }

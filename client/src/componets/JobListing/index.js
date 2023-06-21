@@ -16,9 +16,10 @@ const JobListing = () => {
       getJobsData()
     }, []);
 
+    console.log(jobListings);
 
     let JSXJobListing = jobListings.map((job) => {
-        return <JobCard job={job} />
+        return <JobCard key={job._id} job={job} />
     })
 
 

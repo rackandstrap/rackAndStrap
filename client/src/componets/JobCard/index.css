@@ -9,13 +9,15 @@
 
 .card-container:hover {
     background-color: aliceblue;
-    .created-by-user {
-        height: auto;
-        width: auto;
-        grid-area: 1/1/2/2;
-        width: auto;
-        border-radius: 10px 0px 0px 10px;
-    }
+}
+
+.icon-for-equipment {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    margin: 2px;
+    padding: 2px;
+    align-items: center;
 }
 .created-by-user {
     background: blanchedalmond;
