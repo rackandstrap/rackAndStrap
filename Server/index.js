@@ -5,7 +5,6 @@ const port = 3001
 
 const Users = require('./src/models/userModel');
 
-
 const connectToDB = require('./src/config/db')
 // Connect to the database
 connectToDB()
@@ -22,7 +21,6 @@ app.use('/jobs', require('./src/routes/jobRoutes'));
 // Handle all requests
 app.use('*', async (req, res) => {
     console.log(`request received from ip address - ${req.ip}`);
-
     res.json({response: 'catch all'});
 });
 

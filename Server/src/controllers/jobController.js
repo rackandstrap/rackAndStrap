@@ -14,7 +14,16 @@ const getJob = asyncHandler(async (req, res) => {
 
 const getJobs = asyncHandler(async (req, res) => {
     try {
-        const job = await Jobs.find().limit(parseInt(req.query.limit)).populate('postedBy')
+        let queries = {}
+        const leaveDate = req.query.leaveDate.split(',');
+        // const arrivalDate = req.query.arrivalDate.split(',');
+        queries.leaveDate = {
+            $gte: leaveDate[0],
+            $lte: leaveDate[1]
+        }
+
+
+        const job = await Jobs.find(queries).limit(parseInt(req.query.limit) || 10).populate('postedBy')
         res.json(job)
     } 
     catch (err) {
