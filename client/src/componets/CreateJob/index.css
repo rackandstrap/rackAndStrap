@@ -1,0 +1,26 @@
+.equipmentLabel{
+    margin-bottom: 20px;
+    display: flex;
+    
+    align-items: center;
+    
+    margin-left: 40%;
+    margin-top: 20px;
+}
+
+.valueCount{
+   
+    margin-left: 6px;
+}
+
+#delete{
+    display: inline-flex;
+    align-items: center; 
+    position:absolute;
+    margin-left: 12%;
+    height: 30px;
+}
+
+
+  
+  
