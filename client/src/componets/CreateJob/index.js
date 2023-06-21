@@ -13,8 +13,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CreateJob = () => {
-
+    const myStyle = {
+        alignSelf: 'flex-end'
+      };
     const[jobData, setJobData] = useState({})
+
+    const[equipmentAndQuanity, setEquipmentAndQuanity] = useState([{"kayk":1}])
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -29,7 +33,10 @@ const CreateJob = () => {
     let stateJsx = states.map((item,index)=>(
         <option>{item}</option>
     ))
+    
+    const handleAddButtonClick=()=>{
 
+    }
 
     return (
         <div className="w-50">
@@ -78,10 +85,22 @@ const CreateJob = () => {
                     </InputGroup>
                     </Form.Group>
                 </Row>
-                
+
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridState">
-                    <Form.Label>Kayaks</Form.Label>
+                    <Form.Label>Equipment</Form.Label>
+                    <Form.Select defaultValue="Choose...">
+                        <option>Creek Boat</option>
+                        <option>Play Boat</option>
+                        <option>Half Slice</option>
+                        <option>Full Slice</option>
+                        <option>Canoe</option>
+                        <option>Bike</option>
+                    </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Quantity</Form.Label>
                     <Form.Select defaultValue="Choose...">
                         <option>0</option>
                         <option>1</option>
@@ -91,27 +110,19 @@ const CreateJob = () => {
                     </Form.Select>
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridState">
-                    <Form.Label>Canoes</Form.Label>
-                    <Form.Select defaultValue="Choose...">
-                        <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </Form.Select>
+                    <Form.Group as={Col} controlId="formGridState" style={myStyle}>
+                        
+                        <Button variant="success" onClick={handleAddButtonClick}>
+                        +
+                        </Button>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="formGridState">
-                    <Form.Label>Bikes</Form.Label>
-                    <Form.Select defaultValue="Choose...">
-                        <option>0</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </Form.Select>
-                    </Form.Group>
+
                 </Row>
+
+                {/* We append equipment type and quanity here*/}
+                {/* {equipmentAndQuanity.map((item, index) => (
+                    <p key={index}>{item}</p>
+                ))} */}
 
                 <FloatingLabel controlId="floatingTextarea2" label="Detailed Description">
                 <Form.Control
