@@ -38,7 +38,17 @@ const CreateJob = () => {
     const[copyText, setCopyText] = useState(request_copy);
 
     //Main jobData to send to the backend
-    const[jobData, setJobData] = useState({})
+    const[jobData, setJobData] = useState({
+        "postedBy": "123",
+        "type": "provide",
+        "title": "",
+        "description":"",
+        "bid": 0,
+        "item":{},
+        "from":"",
+        "destination":"",
+
+    });
 
     //Equipment Quanity will be send as an equipment object as part
     //of the main data
@@ -92,7 +102,7 @@ const CreateJob = () => {
 
     const handleSelectModeChange =(value)=>{
         setSelectedOption(value)
-        if(value == 'request'){
+        if(value === 'request'){
             setCopyText(request_copy)
         } else {
             setCopyText(service_copy)
@@ -110,6 +120,10 @@ const CreateJob = () => {
             ...equipmentAndQuanity,
             [selectEquipment]:selectQuantity,
         }));
+    }
+
+    const checkAndSubmit=()=>{
+        console.log(jobData)
     }
 
     return (
@@ -165,6 +179,8 @@ const CreateJob = () => {
                         <Form.Label>{copyText.equipmentTitle}</Form.Label>
                         <Form.Select defaultValue="Choose..." onChange={handleSelectEquipment}>
                             <option>Creek Boat</option>
+                            <option>Sit On Top</option>
+                            <option>Paddle Board</option>
                             <option>Half Slice</option>
                             <option>Play Boat</option>
                             <option>Full Slice</option>
@@ -258,7 +274,7 @@ const CreateJob = () => {
         </Row>
                      
 
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="button" onClick={checkAndSubmit}>
         Send it!
       </Button>
     </Form>
