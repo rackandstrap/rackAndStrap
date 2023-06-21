@@ -47,7 +47,7 @@ const CreateJob = () => {
         "item":{},
         "from":"",
         "destination":"",
-
+        
     });
 
     //Equipment Quanity will be send as an equipment object as part
