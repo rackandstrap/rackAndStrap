@@ -15,11 +15,6 @@ import './index.css'
 
 const CreateJob = () => {
 
-    //Set style for the +button 
-    const myStyle = {
-        alignSelf: 'flex-end'
-    };
-
     //Dynamic text for request vs service
     const request_copy = {
         "titlePlaceHolder":"My boat need a ride",
@@ -39,15 +34,17 @@ const CreateJob = () => {
 
     //Main jobData to send to the backend
     const[jobData, setJobData] = useState({
-        "postedBy": "123",
-        "type": "provide",
-        "title": "",
-        "description":"",
-        "bid": 0,
-        "item":{},
-        "from":"",
-        "destination":"",
-        
+        postedBy: "123",
+        type: "provide",
+        title: "",
+        description:"",
+        items: {},
+        bid: 0,
+        from: {},
+        destination: {},
+        leaveDate: new Date(),
+        arrivalDate: new Date(),
+        status: "open"
     });
 
     //Equipment Quanity will be send as an equipment object as part
@@ -58,13 +55,37 @@ const CreateJob = () => {
 
     
     //We will only show equipment that have quanity more than
+    const handleAddButtonClick=()=>{
+
+        let placeholder = equipmentAndQuanity
+        placeholder[selectEquipment]=selectQuantity
+
+        setEquipmentAndQuanity(placeholder)
+
+        console.log(placeholder)
+
+        setJobData(jobData =>({
+            ...jobData,
+            items:placeholder
+        }));
+    }
+
     const removeItemFromEquipmentObject=(key)=>{
         
         console.log("removing:", key)
-        setEquipmentAndQuanity(equipmentAndQuanity =>({
-            ...equipmentAndQuanity,
-            [key]:0,
+        // setEquipmentAndQuanity(equipmentAndQuanity =>({
+        //     ...equipmentAndQuanity,
+        //     [key]:0,
+        // }));
+
+        let placeholder = equipmentAndQuanity
+        delete placeholder[key];
+
+        setJobData(jobData =>({
+            ...jobData,
+            items:placeholder
         }));
+
         console.log(equipmentAndQuanity)
     }
 
@@ -91,13 +112,86 @@ const CreateJob = () => {
         }
     })
 
+    const handleFromCity =(event)=>{
+        console.log(event.target.value)
+        let newFromLocation = jobData.from
+        newFromLocation.city = event.target.value
+        setJobData(jobData =>({
+            ...jobData,
+            from: newFromLocation
+        }));
+    }
+    const handleFromState =(event)=>{
+        console.log(event.target.value)
+        let newFromLocation = jobData.from
+        newFromLocation.state = event.target.value
+        setJobData(jobData =>({
+            ...jobData,
+            from: newFromLocation
+        }));
+    }
+
+    const handleToCity =(event)=>{
+        console.log(event.target.value)
+        let newFromLocation = jobData.destination
+        newFromLocation.city = event.target.value
+        setJobData(jobData =>({
+            ...jobData,
+            destination: newFromLocation
+        }));
+    }
+
+    const handleToState =(event)=>{
+        console.log(event.target.value)
+        let newFromLocation = jobData.destination
+        newFromLocation.state = event.target.value
+        setJobData(jobData =>({
+            ...jobData,
+            destination: newFromLocation
+        }));
+    }
+
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+
+    const handleDateChange=(date,type)=>{
+
+        
+        let dateFormat= JSON.stringify(date);
+
+        if(type==="from"){
+            setStartDate(date)
+            setJobData(jobData =>({
+                ...jobData,
+                leaveDate: dateFormat
+            }));
+        }
+        else{
+            setEndDate(date)
+            setJobData(jobData =>({
+                ...jobData,
+                arrivalDate: dateFormat
+            }));
+        }
+
+    }
+
+    const handleOfferAmount=(event)=>{
+        console.log(event.target.value)
+        setJobData(jobData =>({
+            ...jobData,
+            bid: Number(event.target.value)
+        }));
+    }
 
     const [selectedOption, setSelectedOption] = useState('request');
 
     useEffect(() => {
         console.log('Selected option:', selectedOption);
+        setJobData(jobData =>({
+            ...jobData,
+            type: selectedOption
+        }));
     }, [selectedOption]);
 
     const handleSelectModeChange =(value)=>{
@@ -109,21 +203,37 @@ const CreateJob = () => {
         }
     }
 
-    const states = [ 'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
+    const handleTitle = (event) =>{
+        setJobData(jobData =>({
+            ...jobData,
+            title: event.target.value
+        }));
+    }
+
+    const handleDetails = (event) =>{
+        setJobData(jobData =>({
+            ...jobData,
+            description: event.target.value
+        }));
+    }
+
+    const states = ['','AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MH', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'MP', 'OH', 'OK', 'OR', 'PW', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VI', 'VA', 'WA', 'WV', 'WI', 'WY' ];
 
     let stateJsx = states.map((item,index)=>(
         <option>{item}</option>
     ))
-    
-    const handleAddButtonClick=()=>{
-        setEquipmentAndQuanity(equipmentAndQuanity =>({
-            ...equipmentAndQuanity,
-            [selectEquipment]:selectQuantity,
-        }));
-    }
 
     const checkAndSubmit=()=>{
+        
         console.log(jobData)
+        //validate Data
+
+        //Send data
+
+        //on success display message
+
+        //Remove data from form and close the modal
+
     }
 
     return (
@@ -158,7 +268,8 @@ const CreateJob = () => {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="">
                         <Form.Label>Title: </Form.Label>
-                        <Form.Control type="text" placeholder={copyText.titlePlaceHolder} />
+                        <Form.Control className="textarea" placeholder={copyText.titlePlaceHolder} maxlength="50" onChange={handleTitle}
+                        />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridBid">
@@ -169,6 +280,9 @@ const CreateJob = () => {
                         placeholder="optional"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        type="text"
+                        pattern="\d*" maxlength="4"
+                        onChange={handleOfferAmount}
                         />
                     </InputGroup>
                     </Form.Group>
@@ -200,7 +314,7 @@ const CreateJob = () => {
                         </Form.Select>
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridState" style={myStyle}>
+                    <Form.Group as={Col} controlId="formGridStateAdd" className="addEquipmentButton">
                         
                         <Button variant="success" onClick={handleAddButtonClick}>
                         +
@@ -213,25 +327,27 @@ const CreateJob = () => {
             
                 {equipmentRender}
 
-                <FloatingLabel controlId="floatingTextarea2" label="Detailed Description">
+                <Form.Label>Detailed Description:</Form.Label>
                 <Form.Control
                     as="textarea"
-                    placeholder="Leave a comment here"
+                    placeholder={copyText.descriptionPlaceHolder}
                     style={{ height: '80px' }}
+                    onChange={handleDetails}
+                    maxlength="300"
                     />
-                </FloatingLabel>
+                
     
         <Row className="mb-3">
             <span>{copyText.from}</span>
              
             <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>City</Form.Label>
-            <Form.Control />
+            <Form.Control onChange={handleFromCity}/>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
             <Form.Label>State</Form.Label>
-            <Form.Select defaultValue="Choose...">
+            <Form.Select defaultValue="Choose..." onChange={handleFromState}>
                 {stateJsx}
             </Form.Select>
             </Form.Group>
@@ -241,7 +357,7 @@ const CreateJob = () => {
             <DatePicker
                 showIcon
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => handleDateChange(date,"from")}
                 />
             </Form.Group>
             
@@ -252,12 +368,12 @@ const CreateJob = () => {
              
             <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>City</Form.Label>
-            <Form.Control/>
+            <Form.Control onChange={handleToCity}/>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
             <Form.Label>State</Form.Label>
-            <Form.Select defaultValue="Choose...">
+            <Form.Select defaultValue="Choose..." onChange={handleToState}>
                 {stateJsx}
             </Form.Select>
             </Form.Group>
@@ -267,7 +383,7 @@ const CreateJob = () => {
             <DatePicker
                 showIcon
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date) => handleDateChange(date,"to")}
                 />
             </Form.Group>
             
