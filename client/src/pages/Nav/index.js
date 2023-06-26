@@ -66,11 +66,13 @@ const NavigateBar = () => {
         </>       
         );
     }else{
+
+        /* Logged out state here*/ 
         return(
             <>
             <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="/">Rack & Strap</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">Rack & Strap</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
 
