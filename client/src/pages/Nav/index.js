@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {login, logout} from "../../slice/loginSlice.js"
 import {clearUserInfo} from "../../slice/authUserSlice.js"
-import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Navigate, Route, Routes, useNavigate, Switch } from 'react-router-dom';
 import Login from '../../loginComponent/Login.js';
 import User from '../../userComponent/UserProfile';
 import LandingPage from '../LandingPage/LandingPage.js';
@@ -24,6 +24,11 @@ const NavigateBar = () => {
         dispatch(logout())
         dispatch(clearUserInfo())
         navigate('/')
+    }
+
+    const EmptyComponent = () =>{
+        console.log("This should not render")
+        return null;
     }
     /*----------- Conditional Rendering Here------------------------------*/
     if(login_status){
@@ -57,10 +62,14 @@ const NavigateBar = () => {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-
+        
           <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/userprofile' element={<User/>}/>
+            
+                <Route path='/' element={<Home/>}/>
+                <Route path='/userprofile' element={<User/>}/>
+                {/* Need to find a way to do a catch all for login state, might w/ local storage */}
+                {/* <Route path='/*' component={EmptyComponent}  /> */}
+
           </Routes>
     
         </>       
@@ -95,7 +104,8 @@ const NavigateBar = () => {
             <Routes>
                 <Route path='/' element={<LandingPage/>}/>
                 <Route path='/login' element={<Login/>}/>
-                <Route path='/*' element={<Navigate to="/"/>}/>
+                {/* This is should be ok if for now */}
+                {/* <Route path='/*' element={<LandingPage/>} /> */}
             </Routes>
             
             </>
