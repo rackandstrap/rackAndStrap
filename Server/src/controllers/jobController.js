@@ -16,10 +16,39 @@ const getJobs = asyncHandler(async (req, res) => {
     try {
         let queries = {}
         const leaveDate = req.query.leaveDate.split(',');
-        // const arrivalDate = req.query.arrivalDate.split(',');
-        queries.leaveDate = {
-            $gte: leaveDate[0],
-            $lte: leaveDate[1]
+     
+        
+       
+
+        for (let prop in req.query) {
+            switch (prop) {
+                case 'from.city': 
+                    queries['from.city'] = req.query[prop].toLowerCase()
+                    break
+                case 'from.state': 
+                    queries['from.state'] = req.query[prop].toLowerCase()
+                    break
+                case 'destination.city': 
+                    queries['destination.city'] = req.query[prop].toLowerCase()
+                    break
+                case 'destination.state': 
+                    queries['destination.state'] = req.query[prop].toLowerCase()
+                    break
+                case 'leaveDate':
+                    const leaveDate = req.query.leaveDate.split(',');
+                    queries.leaveDate = {
+                        $gte: leaveDate[0],
+                        $lte: leaveDate[1]
+                    }
+                    break
+                case 'arrivalDate':
+                    const arrivalDate = req.query.arrivalDate.split(',');
+                    queries.arrivalDate = {
+                        $gte: arrivalDate[0],
+                        $lte: arrivalDate[1]
+                    }
+                    break
+            }
         }
 
 
