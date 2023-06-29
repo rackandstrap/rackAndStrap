@@ -15,9 +15,21 @@ export const authUser = createSlice({
     reducers:{
         auth:(state, action)=>{
             return action.payload;
+        },
+        clearUserInfo:state=>{
+            return{
+                '_id': '',
+                'username':'',
+                'name':'',
+                'homebase': '',
+                'job':[],
+                'provide':[],
+                'createdAt': '',
+                'updatedAt': '',
+            }
         }
     }
 })
 
-export const {auth} = authUser.actions
+export const {auth,clearUserInfo} = authUser.actions
 export default authUser.reducer 
