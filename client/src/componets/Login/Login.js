@@ -1,13 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import User from '../userComponent/UserProfile';
-import './login.css';
-import fbLogo from './logo/f_logo_RGB-Blue_58.png';
-import googleLogo from './logo/Google__G__Logo.svg.png';
+import './Login.css';
+import fbLogo from './Logo/f_logo_RGB-Blue_58.png';
+import googleLogo from './Logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import { auth } from "../slice/authUserSlice";
-import {login, logout} from "../slice/loginSlice.js"
+import { auth } from "../../slice/authUserSlice";
+import {login, logout} from "../../slice/loginSlice.js";
+import Home from '../../pages/Home/index.js';
+import {useNavigate} from 'react-router-dom';
 
 const axios = require('axios')
 
@@ -16,6 +17,7 @@ const Login = () =>{
     /*
     We can just use userInfo from our store as we need.
     */
+    const navigate = useNavigate()
     const userInfo = useSelector(state => state.userInfo);
     const dispatch = useDispatch()
 
@@ -56,10 +58,11 @@ const Login = () =>{
                 data: {'username': username,   
                         'password': password}
                 })
-            // console.log(result.data)
+            console.log(result.data)
 
-            dispatch(auth(result.data.user))
+            dispatch(auth(result.data.user));
             dispatch(login())
+            navigate('/home');
         
         } catch(error){
             console.error("Cannot AUTH user!");
@@ -93,9 +96,9 @@ const Login = () =>{
 
                 // auth(result.data);
                 
-                dispatch(auth(result.data.createdUser));
+                dispatch(auth(result.data.user));
                 dispatch(login())
-
+                navigate('/home');
             } catch (error){
                 console.error("Cannot create new user", error);
             }
@@ -161,16 +164,11 @@ const Login = () =>{
                             <img id="glogo" src={googleLogo} alt="Image" />
                         </div>
                     </form>
-                </div>
-                            
+                </div>              
             </div>
         )
     } else {
-        return(
-            // <div>You logged in!
-                <User/>
-            // </div>
-        )
+        <Home/>
     }
 }
 
