@@ -1,19 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
-import User from './userComponent/UserProfile';
-import Login from './loginComponent/Login';
-import LandingPage from './pages/LandingPage/LandingPage.js';
+
 import NavigateBar from './pages/Nav/index.js';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
+
+import Home from './pages/Home/index.js'
+import Login from './componets/Login/Login.js'
+import User from './userComponent/UserProfile.js'
+import LandingPage from './pages/LandingPage/LandingPage.js';
 
 function App() {
   return (
     <div className="App">
       Rack and Strap
       <NavigateBar/>
-      {/* <LandingPage />
-      <Login/> */}
-      {/* <User/> */}
+      <Routes>
+            
+        <Route path='/home' element={<Home/>}/>
+        <Route path='/landingpage' element={<LandingPage/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/userprofile' element={<User/>}/>
+        <Route path='/' element={<LandingPage/>}/>
+        <Route path='/*' element={<LandingPage/>}/>
+
+      </Routes>
     </div>
   );
 }

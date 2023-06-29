@@ -1,14 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import User from '../userComponent/UserProfile';
-import './login.css';
-import fbLogo from './logo/f_logo_RGB-Blue_58.png';
-import googleLogo from './logo/Google__G__Logo.svg.png';
+import './Login.css';
+import fbLogo from './Logo/f_logo_RGB-Blue_58.png';
+import googleLogo from './Logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import { auth } from "../slice/authUserSlice";
-import {login, logout} from "../slice/loginSlice.js"
-import Home from "../pages/Home/index.js"
+import { auth } from "../../slice/authUserSlice";
+import {login, logout} from "../../slice/loginSlice.js";
+import Home from '../../pages/Home/index.js';
 import {useNavigate} from 'react-router-dom';
 
 const axios = require('axios')
@@ -63,7 +62,7 @@ const Login = () =>{
 
             dispatch(auth(result.data.user));
             dispatch(login())
-            navigate('/');
+            navigate('/home');
         
         } catch(error){
             console.error("Cannot AUTH user!");
@@ -99,7 +98,7 @@ const Login = () =>{
                 
                 dispatch(auth(result.data.user));
                 dispatch(login())
-                navigate('/');
+                navigate('/home');
             } catch (error){
                 console.error("Cannot create new user", error);
             }

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {login, logout} from "../../slice/loginSlice.js"
 import {clearUserInfo} from "../../slice/authUserSlice.js"
 import { Link, Navigate, Route, Routes, useNavigate, Switch } from 'react-router-dom';
-import Login from '../../loginComponent/Login.js';
+// import Login from '../../loginComponent/Login.js';
 import User from '../../userComponent/UserProfile';
 import LandingPage from '../LandingPage/LandingPage.js';
 import Home from '../Home/index.js'
@@ -23,7 +23,7 @@ const NavigateBar = () => {
         console.log("trying to logout")
         dispatch(logout())
         dispatch(clearUserInfo())
-        navigate('/')
+        navigate('/landingPage')
     }
 
     const EmptyComponent = () =>{
@@ -36,12 +36,12 @@ const NavigateBar = () => {
             <>
             <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand as={Link} to="/">Rack & Strap</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/home">Rack & Strap</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link href="#home">Need</Nav.Link>
-                    <Nav.Link href="#link">Got Room!</Nav.Link>
+                    {/* <Nav.Link href="#home">Need</Nav.Link>
+                    <Nav.Link href="#link">Got Room!</Nav.Link> */}
                 </Nav>
                 
                 <Nav className='logged-in-view'>
@@ -62,15 +62,6 @@ const NavigateBar = () => {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-        
-          <Routes>
-            
-                <Route path='/' element={<Home/>}/>
-                <Route path='/userprofile' element={<User/>}/>
-                {/* Need to find a way to do a catch all for login state, might w/ local storage */}
-                {/* <Route path='/*' component={EmptyComponent}  /> */}
-
-          </Routes>
     
         </>       
         );
@@ -80,34 +71,27 @@ const NavigateBar = () => {
         return(
             <>
             <Navbar bg="light" expand="lg">
-            <Container>
-                <Navbar.Brand as={Link} to="/">Rack & Strap</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+                <Container>
+                    <Navbar.Brand as={Link} to="/landingPage">Rack & Strap</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
 
-                <Nav className="me-auto">
-                    {/* <Nav.Link href="#home">Need</Nav.Link>
-                    <Nav.Link href="#link">Got Room!</Nav.Link> */}
-                </Nav>
-                {/* For loggin/signup */}
-                <Nav className='logged-out-view'>
-                    <div className='custom-link'>
-                        <Link to="/login">Login/Sign Up</Link>
-                    </div>
+                    <Nav className="me-auto">
+                        {/* <Nav.Link href="#home">Need</Nav.Link>
+                        <Nav.Link href="#link">Got Room!</Nav.Link> */}
+                    </Nav>
+                    {/* For loggin/signup */}
+                    <Nav className='logged-out-view'>
+                        <div className='custom-link'>
+                            <Link to="/login">Login/Sign Up</Link>
+                        </div>
+                    </Nav>
                     
-                </Nav>
-                
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
+                </Navbar.Collapse>
+                </Container>
+            </Navbar>
             
-            <Routes>
-                <Route path='/' element={<LandingPage/>}/>
-                <Route path='/login' element={<Login/>}/>
-                {/* This is should be ok if for now */}
-                {/* <Route path='/*' element={<LandingPage/>} /> */}
-            </Routes>
-            
+        
             </>
             
         );
