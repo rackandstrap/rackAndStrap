@@ -45,7 +45,7 @@ const NavigateBar = () => {
                         </Nav>
                         
                         <Nav className='logged-in-view'>
-                            <Nav.Link href="#createpost">Create Post!</Nav.Link>
+                            <Nav.Link as={Link} to="/createpost">Create Post!</Nav.Link>
                             <NavDropdown title="Profile" id="basic-nav-dropdown" className="ml-auto">
                                 <NavDropdown.Item as={Link} to='/userprofile'> Profile </NavDropdown.Item>
                                 
