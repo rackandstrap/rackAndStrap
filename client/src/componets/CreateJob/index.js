@@ -6,15 +6,20 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Modal from 'react-bootstrap/Modal';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+import { useSelector, useDispatch } from "react-redux";
+
+const axios = require('axios')
 
 const CreateJob = () => {
 
+    const userInfo = useSelector(state => state.userInfo);
     //Dynamic text for request vs service
     const request_copy = {
         "titlePlaceHolder":"My boat need a ride",
@@ -24,26 +29,26 @@ const CreateJob = () => {
         "to":"To:"
     }
     const service_copy = {
-        "titlePlaceHolder":"Going Gauley Fest, room for 2 boats!",
+        "titlePlaceHolder":"Going to Gauley Fest!",
         "equipmentTitle":"Space for:",
         "descriptionPlaceHolder":"Going to Gauley Fest, space for boats, please reach out!",
         "from":"Leaving:",
         "to":"Arriving:"
     }
     const[copyText, setCopyText] = useState(request_copy);
-
+    const curDate = new Date();
     //Main jobData to send to the backend
     const[jobData, setJobData] = useState({
-        postedBy: "123",
+        postedBy: localStorage.getItem('user'),
         type: "provide",
         title: "",
         description:"",
         items: {},
         bid: 0,
-        from: {},
-        destination: {},
-        leaveDate: new Date(),
-        arrivalDate: new Date(),
+        from: {city:'',state:''},
+        destination: {city:'', state:''},
+        leaveDate: curDate.toISOString(),
+        arrivalDate: curDate.toISOString(),
         status: "open"
     });
 
@@ -157,7 +162,7 @@ const CreateJob = () => {
     const handleDateChange=(date,type)=>{
 
         
-        let dateFormat= JSON.stringify(date);
+        let dateFormat= date.toISOString();
 
         if(type==="from"){
             setStartDate(date)
@@ -223,10 +228,44 @@ const CreateJob = () => {
         <option>{item}</option>
     ))
 
-    const checkAndSubmit=()=>{
+    const [showModal, setShowModal] = useState(false);
+
+    const closeModal = () => {
+        setShowModal(false);
+      };
+
+    const checkAndSubmit=async(event)=>{
         
         console.log(jobData)
-        //validate Data
+        //validate Data        
+
+        if(jobData.title === ''|| jobData.description==='' || jobData.from.city==='' || jobData.from.state ==='' || jobData.destination.city ==='' || jobData.destination.state===''){
+
+            // Render fail modal
+            console.log("render fail modal")
+            setShowModal(true);
+        } else {
+
+            try{
+                let result = await axios({
+                    method:'post',
+                    url: 'http://localhost:3001/jobs/',
+                    data: jobData,
+                    headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                                'Content-Type': 'application/json'}
+                    })
+                console.log(result.data)
+            
+            } catch(error){
+                console.error("Cannot Create Job!");
+            }
+        }
+
+        /*
+        POST /jobs/<jobId>
+        send all the reqired fields for the jobs schema in the request body
+        router.post('/', authenticateUser, addJob) \
+        */
 
         //Send data
 
@@ -268,7 +307,7 @@ const CreateJob = () => {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="">
                         <Form.Label>Title: </Form.Label>
-                        <Form.Control className="textarea" placeholder={copyText.titlePlaceHolder} maxlength="50" onChange={handleTitle}
+                        <Form.Control className="textarea" placeholder={copyText.titlePlaceHolder} maxLength="50" onChange={handleTitle}
                         />
                     </Form.Group>
 
@@ -281,7 +320,7 @@ const CreateJob = () => {
                         aria-label="Username"
                         aria-describedby="basic-addon1"
                         type="text"
-                        pattern="\d*" maxlength="4"
+                        pattern="\d*" maxLength="4"
                         onChange={handleOfferAmount}
                         />
                     </InputGroup>
@@ -395,6 +434,21 @@ const CreateJob = () => {
       </Button>
     </Form>
 
+
+        <Modal show={showModal} onHide={closeModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Opps...some fields are missing</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>Please fill in title, description, and location before posting.</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={closeModal}>
+                Close
+                </Button>
+                {/* Add any other buttons or actions you need */}
+            </Modal.Footer>
+        </Modal>
 
         </div>
     );

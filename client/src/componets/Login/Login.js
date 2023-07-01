@@ -63,6 +63,8 @@ const Login = () =>{
 
             dispatch(auth(result.data.user))
             dispatch(setToken(result.data.token))
+            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('user', result.data.user._id)
             dispatch(login())
             navigate('/home');
         
@@ -99,6 +101,7 @@ const Login = () =>{
                 // auth(result.data);
                 
                 dispatch(auth(result.data.user));
+                dispatch(setToken(result.data.token))
                 dispatch(login())
                 navigate('/home');
             } catch (error){
