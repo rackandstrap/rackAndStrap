@@ -49,7 +49,7 @@ const NavigateBar = () => {
                             <NavDropdown title="Profile" id="basic-nav-dropdown" className="ml-auto">
                                 <NavDropdown.Item as={Link} to='/userprofile'> Profile </NavDropdown.Item>
                                 
-                                <NavDropdown.Item href="#action/3.2">
+                                <NavDropdown.Item as={Link} to='/myjobs'>
                                     My Posts
                                 </NavDropdown.Item>
                                 

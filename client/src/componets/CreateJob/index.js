@@ -14,6 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const axios = require('axios')
 
@@ -190,6 +191,8 @@ const CreateJob = () => {
     }
 
     const [selectedOption, setSelectedOption] = useState('request');
+    const [showModal, setShowModal] = useState(false);
+    const [showModal_success, setShowModal_success] = useState(false);
 
     useEffect(() => {
         console.log('Selected option:', selectedOption);
@@ -226,13 +229,19 @@ const CreateJob = () => {
 
     let stateJsx = states.map((item,index)=>(
         <option>{item}</option>
-    ))
-
-    const [showModal, setShowModal] = useState(false);
+    ));
 
     const closeModal = () => {
         setShowModal(false);
-      };
+    };
+
+    const closeModal_success = () => {
+        console.log("closing modal")
+        // We should send them to the home page?
+        // Or should we send them to my post?
+        setShowModal_success(false);
+        // window.location.href = "/myjobs"
+    };
 
     const checkAndSubmit=async(event)=>{
         
@@ -255,6 +264,22 @@ const CreateJob = () => {
                                 'Content-Type': 'application/json'}
                     })
                 console.log(result.data)
+                // On sucess post we need to clear the posts so people don't the same job again. 
+                setJobData({
+                    postedBy: localStorage.getItem('user'),
+                    type: "provide",
+                    title: "",
+                    description:"",
+                    items: {},
+                    bid: 0,
+                    from: {city:'',state:''},
+                    destination: {city:'', state:''},
+                    leaveDate: curDate.toISOString(),
+                    arrivalDate: curDate.toISOString(),
+                    status: "open"
+                })
+                
+                setShowModal_success(true)
             
             } catch(error){
                 console.error("Cannot Create Job!");
@@ -372,7 +397,7 @@ const CreateJob = () => {
                     placeholder={copyText.descriptionPlaceHolder}
                     style={{ height: '80px' }}
                     onChange={handleDetails}
-                    maxlength="300"
+                    maxLength="300"
                     />
                 
     
@@ -444,6 +469,22 @@ const CreateJob = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={closeModal}>
+                Close
+                </Button>
+                {/* Add any other buttons or actions you need */}
+            </Modal.Footer>
+        </Modal>
+
+        <Modal show={showModal_success} onHide={closeModal_success}>
+            <Modal.Header closeButton>
+                <Modal.Title>Awesome...your listing has been posted!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>Thank you for using Rack and Strap! We will help match you with folks going that way.</p>
+                {/* This is where we can add matches to the post... ML stuff goes here */}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button as={Link} to='/myjobs' variant="secondary" onClick={closeModal_success} >
                 Close
                 </Button>
                 {/* Add any other buttons or actions you need */}
