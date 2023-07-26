@@ -8,6 +8,7 @@ const User=()=>{
     const userInfo2 = useSelector(state => state.userInfo);
 
     console.log(userInfo2);
+    console.log(useSelector(state => state.userToken))
 
     return(
         <div>Profile View

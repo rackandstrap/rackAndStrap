@@ -4,8 +4,8 @@ const app = express();
 const cors = require('cors');
 const port = 3001
 
-const server = http.createServer(app);
-const createWebSocket = require('./src/socketIo/index')(server);
+const Users = require('./src/models/userModel');
+
 
 const connectToDB = require('./src/config/db')
 // Connect to the database
@@ -21,8 +21,9 @@ app.use('/users', require('./src/routes/userRoutes'));
 app.use('/jobs', require('./src/routes/jobRoutes'));
 
 // Handle all requests
-app.use('*', (req, res) => {
+app.use('*', async (req, res) => {
     console.log(`request received from ip address - ${req.ip}`);
+
     res.json({response: 'catch all'});
 });
 

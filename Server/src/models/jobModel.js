@@ -23,6 +23,9 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter a description"],
     },
+    items: {
+        type: Object
+    },
     bid: {
         type: Number
     },

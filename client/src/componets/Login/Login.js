@@ -1,12 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import User from '../userComponent/UserProfile';
-import './login.css';
-import fbLogo from './logo/f_logo_RGB-Blue_58.png';
-import googleLogo from './logo/Google__G__Logo.svg.png';
+import './Login.css';
+import fbLogo from './Logo/f_logo_RGB-Blue_58.png';
+import googleLogo from './Logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
-import { auth } from "../slice/authUserSlice";
+import { auth } from "../../slice/authUserSlice";
+import { setToken } from "../../slice/tokenSlice";
+import {login, logout} from "../../slice/loginSlice.js";
+import Home from '../../pages/Home/index.js';
+import {useNavigate} from 'react-router-dom';
 
 const axios = require('axios')
 
@@ -15,8 +18,13 @@ const Login = () =>{
     /*
     We can just use userInfo from our store as we need.
     */
+    const navigate = useNavigate()
     const userInfo = useSelector(state => state.userInfo);
     const dispatch = useDispatch()
+
+    const login_status = useSelector(state =>state.loginStateValue.value);
+    console.log(login_status);
+
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
@@ -51,10 +59,14 @@ const Login = () =>{
                 data: {'username': username,   
                         'password': password}
                 })
-            // console.log(result.data)
+            console.log(result.data)
 
             dispatch(auth(result.data.user))
-            setLoggedInStatus(true);
+            dispatch(setToken(result.data.token))
+            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('user', result.data.user._id)
+            dispatch(login())
+            navigate('/home');
         
         } catch(error){
             console.error("Cannot AUTH user!");
@@ -88,9 +100,10 @@ const Login = () =>{
 
                 // auth(result.data);
                 
-                dispatch(auth(result.data.createdUser));
-                setLoggedInStatus(true);
-
+                dispatch(auth(result.data.user));
+                dispatch(setToken(result.data.token))
+                dispatch(login())
+                navigate('/home');
             } catch (error){
                 console.error("Cannot create new user", error);
             }
@@ -104,7 +117,7 @@ const Login = () =>{
 
     // console.log("userInfo", loggedInStatus);
 
-    if(!loggedInStatus){
+    if(login_status == false){
         // console.log(userInfo.username);
         return(
             <div className="Auth-window">
@@ -156,16 +169,11 @@ const Login = () =>{
                             <img id="glogo" src={googleLogo} alt="Image" />
                         </div>
                     </form>
-                </div>
-                            
+                </div>              
             </div>
         )
     } else {
-        return(
-            // <div>You logged in!
-                <User/>
-            // </div>
-        )
+        <Home/>
     }
 }
 
