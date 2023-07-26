@@ -8,6 +8,8 @@ import Home from './pages/Home/index.js'
 import Login from './componets/Login/Login.js'
 import User from './userComponent/UserProfile.js'
 import LandingPage from './pages/LandingPage/LandingPage.js';
+import CreateJob from './componets/CreateJob/index.js';
+import MyJobs from './pages/MyJobs';
 
 function App() {
   return (
@@ -15,14 +17,14 @@ function App() {
       Rack and Strap
       <NavigateBar/>
       <Routes>
-            
         <Route path='/home' element={<Home/>}/>
         <Route path='/landingpage' element={<LandingPage/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/userprofile' element={<User/>}/>
+        <Route path='/createpost' element={<CreateJob/>}/>
+        <Route path='/myjobs' element={<MyJobs/>}/>
         <Route path='/' element={<LandingPage/>}/>
         <Route path='/*' element={<LandingPage/>}/>
-
       </Routes>
     </div>
   );

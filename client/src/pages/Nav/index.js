@@ -45,11 +45,11 @@ const NavigateBar = () => {
                         </Nav>
                         
                         <Nav className='logged-in-view'>
-                            <Nav.Link href="#createpost">Create Post!</Nav.Link>
+                            <Nav.Link as={Link} to="/createpost">Create Post!</Nav.Link>
                             <NavDropdown title="Profile" id="basic-nav-dropdown" className="ml-auto">
                                 <NavDropdown.Item as={Link} to='/userprofile'> Profile </NavDropdown.Item>
                                 
-                                <NavDropdown.Item href="#action/3.2">
+                                <NavDropdown.Item as={Link} to='/myjobs'>
                                     My Posts
                                 </NavDropdown.Item>
                                 

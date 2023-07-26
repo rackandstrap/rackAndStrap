@@ -6,6 +6,7 @@ import googleLogo from './Logo/Google__G__Logo.svg.png';
 // import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../../slice/authUserSlice";
+import { setToken } from "../../slice/tokenSlice";
 import {login, logout} from "../../slice/loginSlice.js";
 import Home from '../../pages/Home/index.js';
 import {useNavigate} from 'react-router-dom';
@@ -60,7 +61,10 @@ const Login = () =>{
                 })
             console.log(result.data)
 
-            dispatch(auth(result.data.user));
+            dispatch(auth(result.data.user))
+            dispatch(setToken(result.data.token))
+            localStorage.setItem('token', result.data.token)
+            localStorage.setItem('user', result.data.user._id)
             dispatch(login())
             navigate('/home');
         
@@ -97,6 +101,7 @@ const Login = () =>{
                 // auth(result.data);
                 
                 dispatch(auth(result.data.user));
+                dispatch(setToken(result.data.token))
                 dispatch(login())
                 navigate('/home');
             } catch (error){
