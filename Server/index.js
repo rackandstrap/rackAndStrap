@@ -28,4 +28,4 @@ app.use('*', async (req, res) => {
 });
 
 // start the server and listen on port 3001
-server.listen(port, () => console.log('listening on port ' + port));
+app.listen(port, () => console.log('listening on port ' + port));
