@@ -23,7 +23,7 @@ const Login = () =>{
     const dispatch = useDispatch()
 
     const login_status = useSelector(state =>state.loginStateValue.value);
-    console.log(login_status);
+    // console.log(login_status);
 
 
     const[username, setUserName] = useState('');
@@ -59,7 +59,7 @@ const Login = () =>{
                 data: {'username': username,   
                         'password': password}
                 })
-            console.log(result.data)
+            // console.log(result.data)
 
             dispatch(auth(result.data.user))
             dispatch(setToken(result.data.token))
@@ -101,7 +101,9 @@ const Login = () =>{
                 // auth(result.data);
                 
                 dispatch(auth(result.data.user));
-                dispatch(setToken(result.data.token))
+                dispatch(setToken(result.data.token));
+                localStorage.setItem('token', result.data.token)
+                localStorage.setItem('user', result.data.user._id)
                 dispatch(login())
                 navigate('/home');
             } catch (error){
@@ -111,7 +113,7 @@ const Login = () =>{
     }
 
     const handleNewUser=(event)=>{
-        console.log(event.target.name, event.target.value);
+        // console.log(event.target.name, event.target.value);
         setNewUser({...newUser,[event.target.name]: event.target.value});
     }
 
