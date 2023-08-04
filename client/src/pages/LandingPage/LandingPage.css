@@ -1,0 +1,15 @@
+.landing-page-content-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+}
+
+.left-landign-page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: antiquewhite;
+}
+
+
+
