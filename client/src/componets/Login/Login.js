@@ -10,6 +10,7 @@ import { setToken } from "../../slice/tokenSlice";
 import {login, logout} from "../../slice/loginSlice.js";
 import Home from '../../pages/Home/index.js';
 import {useNavigate} from 'react-router-dom';
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const axios = require('axios')
 
@@ -28,6 +29,7 @@ const Login = () =>{
 
     const[username, setUserName] = useState('');
     const[password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState(null);
 
     const[loggedInStatus, setLoggedInStatus] = useState(false);
 
@@ -38,6 +40,7 @@ const Login = () =>{
         name:'',
         homebase: '',
     });
+    const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(null);
     
     const handleUserNameChange=(e)=>{
         setUserName(e.target.value);
@@ -47,68 +50,71 @@ const Login = () =>{
         setPassword(e.target.value);
     }
 
-    const attempLogin=async(event)=>{
-        event.preventDefault();
-        
-        // console.log(username, password);
-        // const loginObject = {'username': username, 'password': password}
-        try{
-            let result = await axios({
-                method:'post',
-                url: 'http://localhost:3001/users/login',
-                data: {'username': username,   
-                        'password': password}
-                })
-            // console.log(result.data)
+    const attemptLogin = useMutation({
 
-            dispatch(auth(result.data.user))
-            dispatch(setToken(result.data.token))
-            localStorage.setItem('token', result.data.token)
-            localStorage.setItem('user', result.data.user._id)
+        mutationFn: async () => {
+            let response = await axios({
+                method: 'POST',
+                url: 'http://localhost:3001/users/login',
+                data: {
+                    'username': username,
+                    'password': password
+                }
+            })
+            return response.data
+        },
+
+        onSuccess: (returnedData) => {
+            dispatch(auth(returnedData.user))
+            dispatch(setToken(returnedData.token))
+            localStorage.setItem('token', returnedData.token)
+            localStorage.setItem('user', returnedData.user._id)
             dispatch(login())
             navigate('/home');
+        },
+
+        onError: (error) => {
+            console.error(error);
+            setLoginError(true)
+        }
         
-        } catch(error){
-            console.error("Cannot AUTH user!");
+    })
+
+
+    const attemptSignUp = useMutation({
+
+        mutationFn: async () => {
+            const response = await axios({
+                method: 'POST',
+                url: 'http://localhost:3001/users/register',
+                data: {
+                    'username': newUser.username, 
+                    'password': newUser.password
+                }
+            })
+            return response.data
+        },
+
+        onSuccess: (returnedData) => {
+            dispatch(auth(returnedData.user));
+            dispatch(setToken(returnedData.token));
+            localStorage.setItem('token', returnedData.token)
+            localStorage.setItem('user', returnedData.user._id)
+            dispatch(login())
+            navigate('/home');
+        },
+
+        onError: (error) => {
+            console.error("Cannot create new user", error);
         }
-    }
+    })
 
-    const attempSignUp = async(event)=>{
-        event.preventDefault();
-    
-        //We might want to do some min req for password strength
-        //For example pwd lenght more than 6
-        let validPWD = false;
-        if(newUser.password === newUser.confirmpassword){
-            // console.log(newUser.password)
-            // console.log(newUser.confirmpassword)
-            validPWD = true;
-        }
-
-        if(!validPWD){
-            console.error('password need to match');
-        }
-
-        if(validPWD){
-            try{
-                let result = await axios({
-                    method:'post',
-                    url: 'http://localhost:3001/users/register',
-                    data: {'username': newUser.username, 'password': newUser.password}
-                    })
-                // console.log(result.data)
-
-                // auth(result.data);
-                
-                dispatch(auth(result.data.user));
-                dispatch(setToken(result.data.token));
-                localStorage.setItem('token', result.data.token)
-                localStorage.setItem('user', result.data.user._id)
-                dispatch(login())
-                navigate('/home');
-            } catch (error){
-                console.error("Cannot create new user", error);
-            }
+    const makeSignUpRequest = (e) => {
+        e.preventDefault()
+        if (newUser.password !== newUser.confirmpassword) {
+            setPasswordsDoNotMatch(true)
+        } else {
+            attemptSignUp.mutate()
         }
     }
 
@@ -124,7 +130,10 @@ const Login = () =>{
         return(
             <div className="Auth-window">
                 <div  className="login-window"> Login
-                    <form onSubmit={attempLogin}>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        attemptLogin.mutate()
+                    }}>
                         <div className="form-group">
                             <label>Username:</label>
                             <input type="text" value={username} onChange={handleUserNameChange} required/>
@@ -133,13 +142,14 @@ const Login = () =>{
                             <label>Password:</label>
                             <input type="password" value={password} onChange={handlePasswordChange} required/>
                         </div>
+                        {loginError && <p>Invalid credentials</p>}
                         <button type ="Login">Login</button>
                     </form>
                 </div>
                 <br/>
 
                 <div  className="login-window"> New User? Signup Now! 
-                    <form onSubmit={attempSignUp}>
+                    <form onSubmit={makeSignUpRequest}>
                         <div className="form-group">
                             <label htmlFor="username">Username:</label>
                             <input name="username" 
@@ -164,6 +174,7 @@ const Login = () =>{
                                     onChange={handleNewUser}
                                     required/>
                         </div>
+                        {passwordsDoNotMatch && <p>passwords do not match</p>}
                         <button type ="Sign Up">Sign Up</button>
                         
                         <div className = "third-party-auth"> 
