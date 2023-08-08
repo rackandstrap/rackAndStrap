@@ -15,7 +15,6 @@ import MyJobs from './pages/MyJobs';
 function App() {
   return (
     <div className="App">
-      
       <NavigateBar/>
       <Routes>
         <Route path='/home' element={<Home/>}/>
