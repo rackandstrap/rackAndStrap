@@ -6,12 +6,19 @@ import "./LandingPage.css"
 const landingPage = () => {
     return (
         <div className="landing-page-content-container">
-            
             <section className="left-landign-page">
+                <h1>Reack & Strap</h1>
                 <img src={kayakImg} alt="ima" />
             </section>
             
             <section className="right-landing-page">
+                <h2>hello</h2>
+                <h2>hello</h2>
+                <h2>hello</h2>
+                <h2>hello</h2>
+                <h2>hello</h2>
+                <h2>hello</h2>
+                <h2>hello</h2>
                 <h2>hello</h2>
                 <h2>hello</h2>
                 <h2>hello</h2>

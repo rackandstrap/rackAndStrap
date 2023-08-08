@@ -14,7 +14,7 @@ import MyJobs from './pages/MyJobs';
 function App() {
   return (
     <div className="App">
-      Rack and Strap
+      {/* Rack and Strap */}
       <NavigateBar/>
       <Routes>
         <Route path='/home' element={<Home/>}/>
