@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import NavigateBar from './pages/Nav/index.js';
+import Footer from './pages/Footer/index.js';
 import { Link, Navigate, Route, Routes } from 'react-router-dom';
 
 import Home from './pages/Home/index.js'
@@ -14,7 +15,6 @@ import MyJobs from './pages/MyJobs';
 function App() {
   return (
     <div className="App">
-      {/* Rack and Strap */}
       <NavigateBar/>
       <Routes>
         <Route path='/home' element={<Home/>}/>
@@ -26,6 +26,7 @@ function App() {
         <Route path='/' element={<LandingPage/>}/>
         <Route path='/*' element={<LandingPage/>}/>
       </Routes>
+      <Footer/>
     </div>
   );
 }
