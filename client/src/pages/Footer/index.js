@@ -6,8 +6,8 @@ import './index.css'
 const Footer = () => {
     return(
             <>
-            <div> {/* Parent container with centering */}
-                <Navbar className="footer mt-auto w-100" bg="light" expand="lg"> {/* mt-auto pushes Navbar to the bottom */}
+            <div > {/* Parent container with centering */}
+                <Navbar className="footer mt-auto w- fixed-bottom" bg="light" expand="lg"> {/* mt-auto pushes Navbar to the bottom */}
                     <div className="container-fluid"> {/* Use fluid container to make the Navbar span the width */}
                         {/* <Navbar.Brand as={Link} to="/about">About</Navbar.Brand> */}
                         {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
@@ -21,7 +21,7 @@ const Footer = () => {
                     </div>
                 </Navbar>
             </div>
-             </>      
+            </>      
     );
 }
 

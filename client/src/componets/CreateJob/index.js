@@ -98,6 +98,7 @@ const CreateJob = () => {
     const handleSelectEquipment = (event) => {
         setEquipment(event.target.value)
     }
+
     const handleSelectQuantity = (event) => {
         setQuantity(Number(event.target.value))
     }
@@ -191,6 +192,7 @@ const CreateJob = () => {
     }
 
     const [selectedOption, setSelectedOption] = useState('request');
+    // Change this to error modal 
     const [showModal, setShowModal] = useState(false);
     const [showModal_success, setShowModal_success] = useState(false);
 

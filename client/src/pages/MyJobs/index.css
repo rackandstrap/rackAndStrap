@@ -1,0 +1,13 @@
+.jobCard{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.jobCard > Button{
+    margin-left: 20px;
+}
+
+.jobCard > p{
+    margin: 10px 0;
+}
