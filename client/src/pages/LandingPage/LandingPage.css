@@ -1,0 +1,27 @@
+.landing-page-content-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    position: relative;
+}
+
+.left-landign-page img {
+    width: 50vw;
+    height: 100vh;
+    object-fit: cover;
+    background-color:rgb(40, 39, 39);
+    padding: 0;
+}
+
+.left-landign-page h1 {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 25%;
+    z-index: 3;
+    top: 50%;
+    color: white;
+}
+
+
+
+

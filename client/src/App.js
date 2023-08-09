@@ -20,7 +20,6 @@ import Team from './pages/Team/index.js';
 function App() {
   return (
     <div className="App">
-      
       <NavigateBar/>
       <Routes>
         <Route path='/home' element={<Home/>}/>
