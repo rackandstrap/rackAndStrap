@@ -21,7 +21,7 @@ const Footer = () => {
                     </div>
                 </Navbar>
             </div>
-             </>      
+            </>      
     );
 }
 

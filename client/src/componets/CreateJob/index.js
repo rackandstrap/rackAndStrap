@@ -13,7 +13,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+
 import { useSelector, useDispatch } from "react-redux";
+import { updateUserInfo } from "../../slice/authUserSlice";
 import { Link } from 'react-router-dom';
 
 const axios = require('axios')
@@ -21,6 +23,7 @@ const axios = require('axios')
 const CreateJob = () => {
 
     const userInfo = useSelector(state => state.userInfo);
+    const dispatch = useDispatch()
     //Dynamic text for request vs service
     const request_copy = {
         "titlePlaceHolder":"My boat need a ride",
@@ -98,6 +101,7 @@ const CreateJob = () => {
     const handleSelectEquipment = (event) => {
         setEquipment(event.target.value)
     }
+
     const handleSelectQuantity = (event) => {
         setQuantity(Number(event.target.value))
     }
@@ -191,6 +195,7 @@ const CreateJob = () => {
     }
 
     const [selectedOption, setSelectedOption] = useState('request');
+    // Change this to error modal 
     const [showModal, setShowModal] = useState(false);
     const [showModal_success, setShowModal_success] = useState(false);
 
@@ -263,7 +268,12 @@ const CreateJob = () => {
                     headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`,
                                 'Content-Type': 'application/json'}
                     })
-                console.log(result.data)
+                console.log("new job:",result.data.job)
+                console.log("new user obj:", result.data.user)
+
+                //We set the user data in redux to the most current data get back from this call w/ new job
+                dispatch(updateUserInfo(result.data.user))
+                
                 // On sucess post we need to clear the posts so people don't the same job again. 
                 setJobData({
                     postedBy: localStorage.getItem('user'),

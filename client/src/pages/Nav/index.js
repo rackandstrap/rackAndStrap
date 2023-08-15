@@ -23,6 +23,9 @@ const NavigateBar = () => {
         console.log("trying to logout")
         dispatch(logout())
         dispatch(clearUserInfo())
+        //clear local storage
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
         navigate('/landingPage')
     }
 
