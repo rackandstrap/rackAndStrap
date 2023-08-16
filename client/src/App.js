@@ -16,6 +16,8 @@ import FAQ from './pages/FAQ/index.js';
 import Terms from './pages/Terms/index.js';
 import Contact from './pages/Contact/index.js';
 import Team from './pages/Team/index.js';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -24,7 +26,8 @@ function App() {
       <Routes>
         <Route path='/home' element={<Home/>}/>
         <Route path='/landingpage' element={<LandingPage/>}/>
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/login' element={<SignIn/>}/>
+        <Route path='/signUp' element={<SignUp/>}/>
         <Route path='/userprofile' element={<User/>}/>
         <Route path='/createpost' element={<CreateJob/>}/>
         <Route path='/myjobs' element={<MyJobs/>}/>
