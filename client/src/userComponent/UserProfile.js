@@ -6,7 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector, useDispatch } from "react-redux";
 
 const User=()=>{
+    const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://production-api.example.com'
+    : 'http://localhost:3001';
 
+    console.log("BaseURL", API_BASE_URL)
     const userInfo2 = useSelector(state => state.userInfo);
 
     console.log(userInfo2);

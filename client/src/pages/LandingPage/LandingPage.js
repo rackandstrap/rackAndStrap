@@ -4,6 +4,12 @@ import "./LandingPage.css"
 
 
 const landingPage = () => {
+    
+    const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://production-api.example.com'
+    : 'http://localhost:3001';
+    console.log("BASE URL: ", API_BASE_URL)
+
     return (
         <div className="landing-page-content-container">
             <section className="left-landign-page">
