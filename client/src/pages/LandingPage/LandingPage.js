@@ -1,13 +1,12 @@
 import React from "react";
 import kayakImg from "../../pages/assests/solo-kayak.png"
 import "./LandingPage.css"
+// import env from "react-dotenv";
 
 
 const landingPage = () => {
-    
-    const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://production-api.example.com'
-    : 'http://localhost:3001';
+
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL;
     console.log("BASE URL: ", API_BASE_URL)
 
     return (

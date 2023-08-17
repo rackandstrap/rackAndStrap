@@ -15,9 +15,13 @@ const axios = require('axios')
 
 const Login = () =>{
 
+    // Set Base URL for staging vs local
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL;
+
     /*
     We can just use userInfo from our store as we need.
     */
+
     const navigate = useNavigate()
     const userInfo = useSelector(state => state.userInfo);
     const dispatch = useDispatch()
@@ -55,7 +59,7 @@ const Login = () =>{
         try{
             let result = await axios({
                 method:'post',
-                url: 'http://localhost:3001/users/login',
+                url: API_BASE_URL + 'users/login',
                 data: {'username': username,   
                         'password': password}
                 })
@@ -93,7 +97,7 @@ const Login = () =>{
             try{
                 let result = await axios({
                     method:'post',
-                    url: 'http://localhost:3001/users/register',
+                    url: API_BASE_URL + 'users/register',
                     data: {'username': newUser.username, 'password': newUser.password}
                     })
                 // console.log(result.data)
