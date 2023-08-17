@@ -39,27 +39,27 @@ const SignUp = () => {
 
     const [errors, setErrors] = useState({})
 
-    // const validateForm = (form) => {
-    //     let errors = {}
+    const validateForm = (form) => {
+        let errors = {}
 
-    //     if (form.name.trim().length < 2) {
-    //         errors.name = "Name is too short"
-    //     }
+        if (form.name.trim().length < 2) {
+            errors.name = "Name is too short"
+        }
 
-    //     if (form.userName.trim().length < 2) {
-    //         errors.userName = "Username is too short"
-    //     }
+        if (form.username.trim().length < 2) {
+            errors.username = "Username is too short"
+        }
 
-    //     if (form.password.length < 6) {
-    //         errors.password = "Password is too short"
-    //     }
+        if (form.password.length < 6) {
+            errors.password = "Password is too short"
+        }
 
-    //     if (form.password !== form.confirmPassword) {
-    //         errors.confirmPassword = "Passwords do not match"
-    //     }
+        if (form.password !== form.confirmPassword) {
+            errors.confirmPassword = "Passwords do not match"
+        }
 
-    //     return errors
-    // }
+        return errors
+    }
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -77,7 +77,8 @@ const SignUp = () => {
                 url: 'http://localhost:3001/users/register',
                 data: {
                     'username': newUser.username, 
-                    'password': newUser.password
+                    'password': newUser.password,
+                    'name': newUser.name
                 }
             })
             return response.data
@@ -100,12 +101,14 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // if (newUser.password !== newUser.confirmpassword) {
-        //     setPasswordsDoNotMatch(true)
-        // } else {
-        //     attemptSignUp.mutate()
-        // }
-        attemptSignUp.mutate()
+        console.log(newUser)
+        const errors = validateForm(newUser)
+        if (Object.keys(errors).length > 0) {
+            setErrors(errors)
+        } else {
+            attemptSignUp.mutate()
+        }
+        
     }
 
     const handleNewUser=(event)=>{
@@ -143,7 +146,7 @@ const SignUp = () => {
                         autoComplete="name"
                         onChange={handleChange}
                     />
-                    {errors.password && <span class="error">{errors.password}</span>}
+                    {errors.name && <span className="error">{errors.name}</span>}
                     </Grid>
                     <Grid item xs={12}>
                     <TextField
@@ -155,9 +158,8 @@ const SignUp = () => {
                         label="Username"
                         autoFocus
                         onChange={handleChange}
-                        // {...(errors.name) ? error: null}
                     />
-                    {errors.name && <span class="error">{errors.name}</span>}
+                    {errors.username && <span className="error">{errors.username}</span>}
                     </Grid>
                     <Grid item xs={12}>
                     <TextField
@@ -170,7 +172,7 @@ const SignUp = () => {
                         type="password"
                         onChange={handleChange}
                     />
-                    {errors.userName && <span class="error">{errors.userName}</span>}
+                    {errors.password && <span className="error">{errors.password}</span>}
                     </Grid>
                     <Grid item xs={12}>
                     <TextField
@@ -183,8 +185,7 @@ const SignUp = () => {
                         autoComplete="confirm-password"
                         onChange={handleChange}
                     />
-                    {errors.confirmPassword && <span class="error">{errors.confirmPassword}</span>}
-                    
+                    {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
                     </Grid>
                 </Grid>
                 <Button
