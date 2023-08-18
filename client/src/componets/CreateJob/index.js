@@ -22,6 +22,8 @@ const axios = require('axios')
 
 const CreateJob = () => {
 
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const userInfo = useSelector(state => state.userInfo);
     const dispatch = useDispatch()
     //Dynamic text for request vs service
@@ -263,7 +265,7 @@ const CreateJob = () => {
             try{
                 let result = await axios({
                     method:'post',
-                    url: 'http://localhost:3001/jobs/',
+                    url: API_BASE_URL + 'jobs/',
                     data: jobData,
                     headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`,
                                 'Content-Type': 'application/json'}

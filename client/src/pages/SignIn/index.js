@@ -26,54 +26,58 @@ import Home from '../../pages/Home/index.js';
 const defaultTheme = createTheme();
 
 const SignIn = () => {
-    const navigate = useNavigate()
-    const userInfo = useSelector(state => state.userInfo);
-    const dispatch = useDispatch()
 
-    const login_status = useSelector(state =>state.loginStateValue.value);
-    // console.log(login_status);
+  // Set Base URL for staging vs local
+  const API_BASE_URL = process.env.REACT_APP_BASE_URL;
+  
+  const navigate = useNavigate()
+  const userInfo = useSelector(state => state.userInfo);
+  const dispatch = useDispatch()
 
-    const[username, setUserName] = useState('');
-    const[password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState(null);
+  const login_status = useSelector(state =>state.loginStateValue.value);
+  // console.log(login_status);
 
-    const[loggedInStatus, setLoggedInStatus] = useState(false);
-    
+  const[username, setUserName] = useState('');
+  const[password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(null);
 
-    const attemptLogin = useMutation({
+  const[loggedInStatus, setLoggedInStatus] = useState(false);
+  
 
-        mutationFn: async () => {
-            let response = await axios({
-                method: 'POST',
-                url: 'http://localhost:3001/users/login',
-                data: {
-                    'username': username,
-                    'password': password
-                }
-            })
-            return response.data
-        },
+  const attemptLogin = useMutation({
 
-        onSuccess: (returnedData) => {
-            dispatch(auth(returnedData.user))
-            dispatch(setToken(returnedData.token))
-            localStorage.setItem('token', returnedData.token)
-            localStorage.setItem('user', returnedData.user._id)
-            dispatch(login())
-            navigate('/home');
-        },
+      mutationFn: async () => {
+          let response = await axios({
+              method: 'POST',
+              url: API_BASE_URL +'users/login',
+              data: {
+                  'username': username,
+                  'password': password
+              }
+          })
+          return response.data
+      },
 
-        onError: (error) => {
-            console.error(error);
-            setLoginError(true)
-        }
-        
-    })
+      onSuccess: (returnedData) => {
+          dispatch(auth(returnedData.user))
+          dispatch(setToken(returnedData.token))
+          localStorage.setItem('token', returnedData.token)
+          localStorage.setItem('user', returnedData.user._id)
+          dispatch(login())
+          navigate('/home');
+      },
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        attemptLogin.mutate()
-    };
+      onError: (error) => {
+          console.error(error);
+          setLoginError(true)
+      }
+      
+  })
+
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      attemptLogin.mutate()
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -26,6 +26,9 @@ import Home from '../../pages/Home/index.js';
 const defaultTheme = createTheme();
 
 const SignUp = () => {
+
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL;
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -74,7 +77,7 @@ const SignUp = () => {
         mutationFn: async () => {
             const response = await axios({
                 method: 'POST',
-                url: 'http://localhost:3001/users/register',
+                url: API_BASE_URL + 'users/register',
                 data: {
                     'username': newUser.username, 
                     'password': newUser.password,
