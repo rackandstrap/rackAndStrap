@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateUserInfo } from "../../slice/authUserSlice";
 
 const MyJobs = () => {
+    const API_BASE_URL = process.env.REACT_APP_BASE_URL
     const navigate = useNavigate();
     // const forceUpdate = useForceUpdate();
     const userInfo2 = useSelector(state => state.userInfo);
@@ -42,7 +43,7 @@ const MyJobs = () => {
         mutationFn: async () => {
             let response = await axios({
                 method: 'DELETE',
-                url: 'http://localhost:3001/jobs/'+ itemToDelete,
+                url: API_BASE_URL +'jobs/'+ itemToDelete,
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'}
             })
@@ -52,6 +53,7 @@ const MyJobs = () => {
         onSuccess: (returnedData) => {
             //close Modal 
             setconfirmDeleteModal(false)
+            console.log(returnedData)
             console.log(returnedData.user)
             dispatch(updateUserInfo(returnedData.user))
             setJobs(returnedData.user.jobs)
