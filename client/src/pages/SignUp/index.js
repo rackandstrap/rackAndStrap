@@ -95,7 +95,16 @@ const SignUp = () => {
         },
 
         onError: (error) => {
-            console.error("Cannot create new user", error);
+            console.error("Cannot create new user", error.response);
+            
+            //Set error
+            if(error.response.data.message === 'User already exists'){
+                console.log("this should work here!")
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    username: 'Username already exists',
+                  }));
+            }
         }
     })
 
@@ -160,6 +169,7 @@ const SignUp = () => {
                         onChange={handleChange}
                     />
                     {errors.username && <span className="error">{errors.username}</span>}
+                    
                     </Grid>
                     <Grid item xs={12}>
                     <TextField
