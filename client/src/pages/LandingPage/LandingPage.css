@@ -3,11 +3,12 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
     position: relative;
+    margin-top: 20px;
 }
 
 .left-landign-page img {
-    width: 50vw;
-    height: 100vh;
+    width: 45vw;
+    height: 80vh;
     object-fit: cover;
     background-color:rgb(40, 39, 39);
     padding: 0;
@@ -18,9 +19,26 @@
     transform: translate(-50%, -50%);
     left: 25%;
     z-index: 3;
-    top: 50%;
-    color: white;
+    top: 25%;
+    color: rgb(176, 192, 255);
 }
+
+.left-landign-page h4 {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 25%;
+    z-index: 3;
+    top: 33%;
+    color: white;
+    text-shadow: 2px 2px 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.logo{
+    font-family: 'Lobster';
+    font-size: 80px;
+    text-shadow: 5px 1px 1px #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
 
 
 
