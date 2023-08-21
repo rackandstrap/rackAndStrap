@@ -27,6 +27,13 @@ const style = {
 
 
 const LandingPage = () => {
+
+    const navigate = useNavigate()
+
+    //Check for token, if we have a token we push the user to the
+    //Log in user and send them to home
+
+    
     
     // Get the latest 20 jobs, then filter by request/provides
     // Then display 5 requests and 5 provides by title, offer, from and two.
@@ -38,15 +45,10 @@ const LandingPage = () => {
 
     const stateTable = {AL:"Alabama", AK:"Alaska", AZ:"Arizona", AR:"Arkansas", CA:"California", CO:"Colorado", CT:"Connecticut", DE:"Delaware", DC:"Washington DC", FL:"Florida", GA:"Georgia", HI:"Hawaii", ID:"Idaho", IL:"Illinois", IN:"Indiana", IA:"Iowa", KS:"Kansas", KY:"Kentucky", LA:"Louisiana", ME:"Maine", MD:"Maryland", MA:"Massachusetts", MI:"Michigan", MN:"Minnesota", MS:"Mississippi", MO:"Missouri", MT:"Montana", NE:"Nebraska", NV:"Navada", NH:"New Hampshire", NJ:"New Jersey", NM:"New Mexico", NY:"New York", NC:"North Carolina", ND:"North Dakota", OH:"Ohio", OK:"Oklahoma", OR:"Oregon", PA:"Pennsylvania", RI:"Rhode Island", SC:"South Carolina", SD:"South Dekota", TN:"Tennessee", TX:"Texas", UT:"Utah", VT:"Vermont", VA:"Virginia", WA:"Washington", WV:"West Virgina", WI:"Wisconsin", WY:"Wyoming"}
 
-    //Check for token, if we have a token we push the user to the /home
-
     //Pop up to push user to login
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    const navigate = useNavigate()
-
 
     const getJobs = useQuery({
         // queryKey: ['posts'],
