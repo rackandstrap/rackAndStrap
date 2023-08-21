@@ -4,6 +4,8 @@
     grid-template-rows: 1fr;
     position: relative;
     margin-top: 20px;
+    margin-right: 20px;
+    
 }
 
 .left-landign-page img {
@@ -37,6 +39,26 @@
     font-family: 'Lobster';
     font-size: 80px;
     text-shadow: 5px 1px 1px #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+.jobCard{
+    justify-content: space-around !important;
+    background-color: rgb(205, 204, 204);
+    border-radius: 16px;
+    cursor: pointer;
+}
+.jobCard:hover{
+    cursor: pointer;
+    background-color: rgb(168, 166, 166);
+}
+.table{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 0px;
+}
+.table p{
+    margin-bottom: 0px;
 }
 
 
