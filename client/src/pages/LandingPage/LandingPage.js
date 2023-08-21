@@ -143,7 +143,7 @@ const LandingPage = () => {
                         Welcome to Rack and Strap!
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        To view full details including contact info, please Login/Sign Up
+                        To view full details including contact info, please log in or sign up.
                     </Typography>
                     <Button onClick={goToLogin}>Login/Sign Up</Button>
                     </Box>
