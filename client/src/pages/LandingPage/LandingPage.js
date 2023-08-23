@@ -106,31 +106,43 @@ const LandingPage = () => {
                     <p>From:</p>
                     <p>To:</p>
                 </div>
-                {displayRequest.map((item) => (
-                    <div className='jobCard' onClick={()=>handleOpen(item._id)}>
-                        <p key={uuidv4()}>{item.title}</p>
-                        <p>{item.bid}</p>
-                        <p>{stateTable[item.from.state]}</p>
-                        <p>{stateTable[item.destination.state]}</p>
-                        {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
-                        <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
-                    </div>
-                ))}
+                {getJobs.isFetching ? (
+                    // Display a loading icon when data is being fetched
+                    <div className="loading-icon">Loading...</div>
+                ) : (
+                    // Display job request data when available
+                    displayRequest.map((item) => (
+                        <div className='jobCard' onClick={()=>handleOpen(item._id)}>
+                            <p key={uuidv4()}>{item.title}</p>
+                            <p>{item.bid}</p>
+                            <p>{stateTable[item.from.state]}</p>
+                            <p>{stateTable[item.destination.state]}</p>
+                            {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                            <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                        </div>
+                    ))
+                )}
                 
                 <h2>Got Space!</h2>
                 {/* Display 5 Latest Job Service here */}
                 {console.log("All Service: ", displayService)}
                 {/* {console.log("Provides: ", jobProvides)} */}
-                {displayService.map((item) => (
-                    <div className='jobCard' onClick={()=>handleOpen(item._id)}>
-                        <p key={uuidv4()}>{item.title}</p>
-                        <p>{item.bid}</p>
-                        <p>{stateTable[item.from.state]}</p>
-                        <p>{stateTable[item.destination.state]}</p>
-                        {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
-                        <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
-                    </div>
-                ))}
+                {getJobs.isFetching ? (
+                    // Display a loading icon when data is being fetched
+                    <div className="loading-icon">Loading...</div>
+                ) : (
+                    // Display job request data when available
+                    displayService.map((item) => (
+                        <div className='jobCard' onClick={()=>handleOpen(item._id)}>
+                            <p key={uuidv4()}>{item.title}</p>
+                            <p>{item.bid}</p>
+                            <p>{stateTable[item.from.state]}</p>
+                            <p>{stateTable[item.destination.state]}</p>
+                            {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                            <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                        </div>
+                    ))
+                )}
             </section>
             <div>
                 {/* <Button onClick={handleOpen}>Open modal</Button> */}
