@@ -9,13 +9,21 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store'
 
+// react-query
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store = {store}>
     <React.StrictMode>
-      <Router>
-        <App />
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <Router basename={process.env.REACT_APP_MAIN}>
+          <App />
+        </Router>
+      </QueryClientProvider>
     </React.StrictMode>
   </Provider>
 );

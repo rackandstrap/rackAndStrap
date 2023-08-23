@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     },
     name: {
         type: String,
+        required: [true, "Please enter a name"]
     },
     homebase: {
         type: String

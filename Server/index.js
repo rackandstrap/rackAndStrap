@@ -1,7 +1,8 @@
+const http = require('http');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port = 3001
+const port = process.env.PORT || 3001;
 
 const Users = require('./src/models/userModel');
 
@@ -26,5 +27,5 @@ app.use('*', async (req, res) => {
     res.json({response: 'catch all'});
 });
 
-// start the server and listen on port 3000
+// start the server and listen on port 3001
 app.listen(port, () => console.log('listening on port ' + port));
