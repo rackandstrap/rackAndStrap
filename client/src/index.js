@@ -20,7 +20,7 @@ root.render(
   <Provider store = {store}>
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <Router basename={process.env.BASE_URL}>
           <App />
         </Router>
       </QueryClientProvider>
