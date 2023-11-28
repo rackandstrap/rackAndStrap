@@ -34,7 +34,6 @@ const LandingPage = () => {
     //Log in user and send them to home
 
     
-    
     // Get the latest 20 jobs, then filter by request/provides
     // Then display 5 requests and 5 provides by title, offer, from and two.
     // Clickable pop up to login to see more
