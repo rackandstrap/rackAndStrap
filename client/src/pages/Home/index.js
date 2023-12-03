@@ -11,6 +11,8 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
+import './index.css';
+
 const Home = () => {
 
     // Handle selecting between service and request jobs
@@ -43,27 +45,42 @@ const Home = () => {
         }
     })
 
-    var displayRequest = []
-    var displayService = []
+    var displayRequest = [];
+    var displayService = [];
 
     if (allJobs.length > 0){
-        for (const i of allJobs){
-            if(i.type == "request"){
-                if(displayRequest.length < 100){
-                    displayRequest.push(i)
-                }
-            } else {
-                if(displayService.length < 100){
-                    displayService.push(i)
-                }
+        // Replace this with reduce operator
+        displayRequest = allJobs.reduce((myList, item)=>{
+            if (item.type === "request"){
+                myList.push(item);
             }
-        }
+            return myList
+        },[])
+
+        displayService = allJobs.reduce((myList, item)=>{
+            if (item.type === "service"){
+                myList.push(item);
+            }
+            return myList
+        },[])
+
+        // for (const i of allJobs){
+        //     if(i.type == "request"){
+        //         if(displayRequest.length < 100){
+        //             displayRequest.push(i)
+        //         }
+        //     } else {
+        //         if(displayService.length < 100){
+        //             displayService.push(i)
+        //         }
+        //     }
+        // }
     }
 
     const handleOpen=()=>{
 
     }
-    if(focus =="Request"){
+    if(focus === "Request"){
         return (
             <div>
                 <h1>Home</h1>
