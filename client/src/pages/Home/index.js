@@ -11,11 +11,12 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import Select from '@mui/material/Select';
 
 import './index.css';
+import JobDetail from '../../componets/JobDetail/JobDetail.js'
 
 const Home = () => {
 
@@ -24,7 +25,8 @@ const Home = () => {
     // console.log(focus)
     const handleRadio=(e)=>{
         // console.log(e.target.value)
-        setFocus(e.target.value)
+        console.log("display service", displayService);
+        setFocus(e.target.value);
     }
 
     const API_BASE_URL = process.env.REACT_APP_BASE_URL
@@ -47,6 +49,22 @@ const Home = () => {
         console.log('Selected value:', event.target.value);
         setRequestTo(event.target.value);
     }
+
+    const handleChangeServiceFrom = (event) => {
+        console.log('Selected value:', event.target.value);
+        setServiceFrom(event.target.value);
+    }
+
+    const handleChangeServiceTo = (event) => {
+        console.log('Selected value:', event.target.value);
+        setServiceTo(event.target.value);
+    }
+
+    const handleOpen = (event)=>{
+        console.log(event)
+    }
+
+    //Modal 
 
     useEffect(() => {
         console.log('requestFrom updated:', requestFrom);
@@ -76,16 +94,16 @@ const Home = () => {
     var selectRequestFrom = new Set([]);
     var selectRequestTo = new Set([]);
 
-    var selectServiceFrom = [];
-    var selectServiceTo = [];
+    var selectServiceFrom = new Set([]);
+    var selectServiceTo = new Set([]);
 
     if (allJobs.length > 0){
         // Replace this with reduce operator
         displayRequest = allJobs.reduce((myList, item)=>{
             if (item.type === "request"){
                 myList.push(item);
-                //Build request drop down option
                 
+                //Build request drop down option
                 selectRequestFrom.add(item.from.state);
                 selectRequestTo.add(item.destination.state);
             }
@@ -97,29 +115,17 @@ const Home = () => {
         displayService = allJobs.reduce((myList, item)=>{
             if (item.type === "service"){
                 myList.push(item);
+                
                 //Build service drop down option
-                // selectServiceFrom.push({"value": item.from.state})
-                // selectServiceTo.push({"value": item.destination.state})
+                selectServiceFrom.add(item.from.state)
+                selectServiceTo.add(item.from.state)
             }
             return myList
         },[])
 
-        // for (const i of allJobs){
-        //     if(i.type == "request"){
-        //         if(displayRequest.length < 100){
-        //             displayRequest.push(i)
-        //         }
-        //     } else {
-        //         if(displayService.length < 100){
-        //             displayService.push(i)
-        //         }
-        //     }
-        // }
+        console.log(displayService)
     }
 
-    const handleOpen=()=>{
-
-    }
     if(focus === "Request"){
         return (
             <div>
@@ -138,8 +144,8 @@ const Home = () => {
                     <FormControlLabel value="Service" control={<Radio />} label="Service" />
                     </RadioGroup>
                 </FormControl>
-    
                 <div>
+                
                 <div className="table">
                         <p>Title</p>
                         <p>Bid/Offer</p>
@@ -150,8 +156,7 @@ const Home = () => {
                                         <option className="custom-option" key={item} value={item}>
                                         {item}
                                         </option>
-                                    ))}
-                                
+                                    ))}  
                             </select>
                         </p>
                         <p>To:
@@ -175,7 +180,7 @@ const Home = () => {
                         displayRequest.map((item) => {
                             if(item.from.state === requestFrom && item.destination.state === requestTo ){
                                 return(
-                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <div className='jobCard' onClick={()=>handleOpen(item)}>
                                     <p key={uuidv4()}>{item.title}</p>
                                     <p>{item.bid}</p>
                                     <p>{stateTable[item.from.state]}</p>
@@ -185,20 +190,19 @@ const Home = () => {
                                     </div>
                                 )
                             }else if(requestFrom === "" && item.destination.state === requestTo){
-                            
-                                    return(
-                                        <div className='jobCard' onClick={()=>handleOpen()}>
-                                        <p key={uuidv4()}>{item.title}</p>
-                                        <p>{item.bid}</p>
-                                        <p>{stateTable[item.from.state]}</p>
-                                        <p>{stateTable[item.destination.state]}</p>
-                                        {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
-                                        <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
-                                        </div>
-                                    )
+                                return(
+                                    <div className='jobCard' onClick={()=>handleOpen(item)}>
+                                    <p key={uuidv4()}>{item.title}</p>
+                                    <p>{item.bid}</p>
+                                    <p>{stateTable[item.from.state]}</p>
+                                    <p>{stateTable[item.destination.state]}</p>
+                                    {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                                    <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                                    </div>
+                                )
                             } else if(requestTo === "" && item.from.state === requestFrom){
                                 return(
-                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <div className='jobCard' onClick={()=>handleOpen(item)}>
                                     <p key={uuidv4()}>{item.title}</p>
                                     <p>{item.bid}</p>
                                     <p>{stateTable[item.from.state]}</p>
@@ -209,7 +213,7 @@ const Home = () => {
                                 )
                             } else if(requestTo === "" && requestFrom === ""){
                                 return(
-                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <div className='jobCard' onClick={()=>handleOpen(item)}>
                                     <p key={uuidv4()}>{item.title}</p>
                                     <p>{item.bid}</p>
                                     <p>{stateTable[item.from.state]}</p>
@@ -219,7 +223,6 @@ const Home = () => {
                                     </div>
                                 )
                             }
-                            
                         })
                     )}
                 </div>
@@ -248,24 +251,80 @@ const Home = () => {
                 <div className="table">
                         <p>Title</p>
                         <p>Bid/Offer</p>
-                        <p>From:</p>
-                        <p>To:</p>
+                        <p>From:
+                            <select className="custom-select" value={serviceFrom} onChange={handleChangeServiceFrom}>
+                                <option className="custom-option" value="">All</option>
+                                {[...selectServiceFrom].sort().map((item) => (
+                                        <option className="custom-option" key={item} value={item}>
+                                        {item}
+                                        </option>
+                                    ))}  
+                            </select>
+                        </p>
+                        <p>To:
+                            <select className="custom-select" value={serviceTo} onChange={handleChangeServiceTo}>
+                                    <option className="custom-option" value="">All</option>
+                                    {[...selectServiceTo].sort().map((item) => (
+                                            <option className="custom-option" key={item} value={item}>
+                                            {item}
+                                            </option>
+                                        ))}
+                                    
+                            </select>
+                        </p>
                     </div>
                     {getJobs.isFetching ? (
                         // Display a loading icon when data is being fetched
                         <div className="loading-icon">Loading...</div>
                     ) : (
+                        
                         // Display job request data when available
                         displayService.map((item) => {
-                            // if(item.from.state === )
-                            <div className='jobCard' onClick={()=>handleOpen()}>
-                                <p key={uuidv4()}>{item.title}</p>
-                                <p>{item.bid}</p>
-                                <p>{stateTable[item.from.state]}</p>
-                                <p>{stateTable[item.destination.state]}</p>
-                                {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
-                                <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
-                            </div>
+                            if(item.from.state === serviceFrom && item.destination.state === serviceTo ){
+                                return(
+                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <p key={uuidv4()}>{item.title}</p>
+                                    <p>{item.bid}</p>
+                                    <p>{stateTable[item.from.state]}</p>
+                                    <p>{stateTable[item.destination.state]}</p>
+                                    {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                                    <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                                    </div>
+                                )
+                            }else if(serviceFrom === "" && item.destination.state === serviceTo){
+                                return(
+                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <p key={uuidv4()}>{item.title}</p>
+                                    <p>{item.bid}</p>
+                                    <p>{stateTable[item.from.state]}</p>
+                                    <p>{stateTable[item.destination.state]}</p>
+                                    {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                                    <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                                    </div>
+                                )
+                            } else if(serviceTo === "" && item.from.state === serviceFrom){
+                                return(
+                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <p key={uuidv4()}>{item.title}</p>
+                                    <p>{item.bid}</p>
+                                    <p>{stateTable[item.from.state]}</p>
+                                    <p>{stateTable[item.destination.state]}</p>
+                                    {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                                    <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                                    </div>
+                                )
+                            } else if(serviceTo === "" && serviceFrom === ""){
+                                return(
+                                    <div className='jobCard' onClick={()=>handleOpen()}>
+                                    <p key={uuidv4()}>{item.title}</p>
+                                    <p>{item.bid}</p>
+                                    <p>{stateTable[item.from.state]}</p>
+                                    <p>{stateTable[item.destination.state]}</p>
+                                    {/* <Button  variant="secondary" onClick={()=>handleEdit(item)}> Edit </Button >
+                                    <Button variant="danger" onClick={()=>handleDelete(item)}> Delete </Button > */}
+                                    </div>
+                                )
+                            }
                         })
                     )}
                 </div>
