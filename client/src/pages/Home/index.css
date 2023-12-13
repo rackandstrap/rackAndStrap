@@ -1,0 +1,9 @@
+.jobCard {
+    width: 95%;
+    margin: 10px auto !important;
+}
+
+.custom-select{
+    margin-left: 10px;
+    border-radius: 8px;
+}
